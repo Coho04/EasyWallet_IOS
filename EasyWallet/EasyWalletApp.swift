@@ -6,15 +6,28 @@
 //
 
 import SwiftUI
+import BackgroundTasks
+
 
 @main
 struct EasyWalletApp: App {
+
     let persistenceController = PersistenceController.shared
+    @Environment(\.managedObjectContext) private var viewContext
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @AppStorage("darkModeEnabled")
+    private var isDarkModeEnabled = false
+    @Environment(\.scenePhase) private var phase
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            ContentView().preferredColorScheme(isDarkModeEnabled ? .dark : .light).environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
+                .onChange(of: phase) { oldPhase, newPhase in
+                    switch newPhase {
+                    case .background:  BackgroundTaskManager.shared.scheduleAppRefresh()
+                    default: break
+                    }
+                }
     }
 }

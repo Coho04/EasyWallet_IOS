@@ -16,6 +16,15 @@
 		B73E592C2B8D1AA500C8D6FF /* EasyWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E592B2B8D1AA500C8D6FF /* EasyWalletTests.swift */; };
 		B73E59362B8D1AA500C8D6FF /* EasyWalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59352B8D1AA500C8D6FF /* EasyWalletUITests.swift */; };
 		B73E59382B8D1AA500C8D6FF /* EasyWalletUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59372B8D1AA500C8D6FF /* EasyWalletUITestsLaunchTests.swift */; };
+		B73E59462B8D1BD400C8D6FF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59452B8D1BD400C8D6FF /* HomeView.swift */; };
+		B73E59482B8D1BF300C8D6FF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59472B8D1BF300C8D6FF /* SettingsView.swift */; };
+		B73E594A2B8D1C0700C8D6FF /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59492B8D1C0700C8D6FF /* StatisticView.swift */; };
+		B73E594D2B8D1C3E00C8D6FF /* ItemDetailPartial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E594C2B8D1C3E00C8D6FF /* ItemDetailPartial.swift */; };
+		B73E59502B8D1C7600C8D6FF /* SubscriptionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E594F2B8D1C7600C8D6FF /* SubscriptionDetailView.swift */; };
+		B73E59522B8D1C9400C8D6FF /* SubscriptionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59512B8D1C9400C8D6FF /* SubscriptionEditView.swift */; };
+		B73E59542B8D1D0000C8D6FF /* SubscriptionCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59532B8D1D0000C8D6FF /* SubscriptionCreateView.swift */; };
+		B73E59562B8D1EBD00C8D6FF /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59552B8D1EBD00C8D6FF /* BackgroundTaskManager.swift */; };
+		B73E59582B8D286F00C8D6FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59572B8D286F00C8D6FF /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +57,15 @@
 		B73E59312B8D1AA500C8D6FF /* EasyWalletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyWalletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B73E59352B8D1AA500C8D6FF /* EasyWalletUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyWalletUITests.swift; sourceTree = "<group>"; };
 		B73E59372B8D1AA500C8D6FF /* EasyWalletUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyWalletUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B73E59452B8D1BD400C8D6FF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B73E59472B8D1BF300C8D6FF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B73E59492B8D1C0700C8D6FF /* StatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
+		B73E594C2B8D1C3E00C8D6FF /* ItemDetailPartial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailPartial.swift; sourceTree = "<group>"; };
+		B73E594F2B8D1C7600C8D6FF /* SubscriptionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionDetailView.swift; sourceTree = "<group>"; };
+		B73E59512B8D1C9400C8D6FF /* SubscriptionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionEditView.swift; sourceTree = "<group>"; };
+		B73E59532B8D1D0000C8D6FF /* SubscriptionCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCreateView.swift; sourceTree = "<group>"; };
+		B73E59552B8D1EBD00C8D6FF /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
+		B73E59572B8D286F00C8D6FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,12 +116,17 @@
 		B73E59142B8D1AA200C8D6FF /* EasyWallet */ = {
 			isa = PBXGroup;
 			children = (
+				B73E594E2B8D1C5600C8D6FF /* SubscriptionViews */,
+				B73E594B2B8D1C2900C8D6FF /* Partials */,
+				B73E59442B8D1BB500C8D6FF /* MainViews */,
 				B73E59152B8D1AA200C8D6FF /* EasyWalletApp.swift */,
 				B73E59172B8D1AA200C8D6FF /* ContentView.swift */,
 				B73E59192B8D1AA400C8D6FF /* Assets.xcassets */,
 				B73E591E2B8D1AA400C8D6FF /* Persistence.swift */,
 				B73E59202B8D1AA400C8D6FF /* EasyWallet.xcdatamodeld */,
 				B73E591B2B8D1AA400C8D6FF /* Preview Content */,
+				B73E59552B8D1EBD00C8D6FF /* BackgroundTaskManager.swift */,
+				B73E59572B8D286F00C8D6FF /* AppDelegate.swift */,
 			);
 			path = EasyWallet;
 			sourceTree = "<group>";
@@ -131,6 +154,34 @@
 				B73E59372B8D1AA500C8D6FF /* EasyWalletUITestsLaunchTests.swift */,
 			);
 			path = EasyWalletUITests;
+			sourceTree = "<group>";
+		};
+		B73E59442B8D1BB500C8D6FF /* MainViews */ = {
+			isa = PBXGroup;
+			children = (
+				B73E59452B8D1BD400C8D6FF /* HomeView.swift */,
+				B73E59472B8D1BF300C8D6FF /* SettingsView.swift */,
+				B73E59492B8D1C0700C8D6FF /* StatisticView.swift */,
+			);
+			path = MainViews;
+			sourceTree = "<group>";
+		};
+		B73E594B2B8D1C2900C8D6FF /* Partials */ = {
+			isa = PBXGroup;
+			children = (
+				B73E594C2B8D1C3E00C8D6FF /* ItemDetailPartial.swift */,
+			);
+			path = Partials;
+			sourceTree = "<group>";
+		};
+		B73E594E2B8D1C5600C8D6FF /* SubscriptionViews */ = {
+			isa = PBXGroup;
+			children = (
+				B73E594F2B8D1C7600C8D6FF /* SubscriptionDetailView.swift */,
+				B73E59512B8D1C9400C8D6FF /* SubscriptionEditView.swift */,
+				B73E59532B8D1D0000C8D6FF /* SubscriptionCreateView.swift */,
+			);
+			path = SubscriptionViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,9 +314,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B73E594A2B8D1C0700C8D6FF /* StatisticView.swift in Sources */,
+				B73E59502B8D1C7600C8D6FF /* SubscriptionDetailView.swift in Sources */,
+				B73E594D2B8D1C3E00C8D6FF /* ItemDetailPartial.swift in Sources */,
 				B73E591F2B8D1AA400C8D6FF /* Persistence.swift in Sources */,
+				B73E59562B8D1EBD00C8D6FF /* BackgroundTaskManager.swift in Sources */,
 				B73E59182B8D1AA200C8D6FF /* ContentView.swift in Sources */,
+				B73E59542B8D1D0000C8D6FF /* SubscriptionCreateView.swift in Sources */,
 				B73E59222B8D1AA400C8D6FF /* EasyWallet.xcdatamodeld in Sources */,
+				B73E59582B8D286F00C8D6FF /* AppDelegate.swift in Sources */,
+				B73E59482B8D1BF300C8D6FF /* SettingsView.swift in Sources */,
+				B73E59522B8D1C9400C8D6FF /* SubscriptionEditView.swift in Sources */,
+				B73E59462B8D1BD400C8D6FF /* HomeView.swift in Sources */,
 				B73E59162B8D1AA200C8D6FF /* EasyWalletApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,12 +487,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EasyWallet/Preview Content\"";
 				DEVELOPMENT_TEAM = 98UP8S95BD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = EasyWallet;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -456,12 +519,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EasyWallet/Preview Content\"";
 				DEVELOPMENT_TEAM = 98UP8S95BD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = EasyWallet;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

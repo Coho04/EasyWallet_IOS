@@ -2,85 +2,62 @@
 //  ContentView.swift
 //  EasyWallet
 //
-//  Created by Collin Ilgner on 26.02.24.
+//  Created by Collin Ilgner on 29.01.24.
 //
 
 import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
+    public enum PayRate: String, CaseIterable, Identifiable {
+        case monthly, yearly
+        public var id: Self {
+            self
+        }
+    }
+
+    public enum RememberCycle: String, CaseIterable, Identifiable {
+        case SameDay, OneDayBefore, TwoDaysBefore, OneWeekBefore, None
+        public var id: Self {
+            self
+        }
+    }
+
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+        TabView {
+            HomeView()
+                    .tabItem {
+                        Image(systemName: "creditcard.circle")
+                        Text(String(localized: "Subscriptions"))
                     }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+            StatisticView()
+                    .tabItem {
+                        Image(systemName: "chart.bar")
+                        Text(String(localized: "Statistics"))
                     }
-                }
-            }
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+//
+            SettingsView()
+                    .tabItem {
+                        Label(String(localized: "Settings"), systemImage: "gear")
+                    }
         }
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
+extension Subscription {
+    static var example: Subscription {
+        let context = PersistenceController.preview.container.viewContext
+        let subscription = Subscription(context: context)
+        subscription.timestamp = Date()
+        return subscription
+    }
+}
 
-#Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+class ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
 }

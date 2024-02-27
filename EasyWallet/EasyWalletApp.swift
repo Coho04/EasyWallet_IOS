@@ -15,13 +15,13 @@ struct EasyWalletApp: App {
     let persistenceController = PersistenceController.shared
     @Environment(\.managedObjectContext) private var viewContext
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @AppStorage("darkModeEnabled")
-    private var isDarkModeEnabled = false
+
+
     @Environment(\.scenePhase) private var phase
 
     var body: some Scene {
         WindowGroup {
-            ContentView().preferredColorScheme(isDarkModeEnabled ? .dark : .light).environment(\.managedObjectContext, persistenceController.container.viewContext)
+            ContentView().environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
                 .onChange(of: phase) { oldPhase, newPhase in
                     switch newPhase {

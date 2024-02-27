@@ -32,11 +32,11 @@ struct ContentView: View {
                         Image(systemName: "creditcard.circle")
                         Text(String(localized: "Subscriptions"))
                     }
-            StatisticView()
+      /*      StatisticView()
                     .tabItem {
                         Image(systemName: "chart.bar")
                         Text(String(localized: "Statistics"))
-                    }
+                    }*/
 //
             SettingsView()
                     .tabItem {

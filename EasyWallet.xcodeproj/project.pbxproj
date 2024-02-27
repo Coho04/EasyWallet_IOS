@@ -25,6 +25,8 @@
 		B73E59542B8D1D0000C8D6FF /* SubscriptionCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59532B8D1D0000C8D6FF /* SubscriptionCreateView.swift */; };
 		B73E59562B8D1EBD00C8D6FF /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59552B8D1EBD00C8D6FF /* BackgroundTaskManager.swift */; };
 		B73E59582B8D286F00C8D6FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59572B8D286F00C8D6FF /* AppDelegate.swift */; };
+		B79B7DF82B8E246A001E9F2D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B79B7DF72B8E246A001E9F2D /* Localizable.xcstrings */; };
+		B79B7DFE2B8E2736001E9F2D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B79B7DFD2B8E2736001E9F2D /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		B73E59552B8D1EBD00C8D6FF /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
 		B73E59572B8D286F00C8D6FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B73E59592B8D3CEE00C8D6FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B79B7DF72B8E246A001E9F2D /* Localizable.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		B79B7DFD2B8E2736001E9F2D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,8 @@
 		B73E59142B8D1AA200C8D6FF /* EasyWallet */ = {
 			isa = PBXGroup;
 			children = (
+				B79B7DFD2B8E2736001E9F2D /* Settings.bundle */,
+				B79B7DF72B8E246A001E9F2D /* Localizable.xcstrings */,
 				B73E59592B8D3CEE00C8D6FF /* Info.plist */,
 				B73E594E2B8D1C5600C8D6FF /* SubscriptionViews */,
 				B73E594B2B8D1C2900C8D6FF /* Partials */,
@@ -290,8 +296,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B79B7DFE2B8E2736001E9F2D /* Settings.bundle in Resources */,
 				B73E591D2B8D1AA400C8D6FF /* Preview Assets.xcassets in Resources */,
 				B73E591A2B8D1AA400C8D6FF /* Assets.xcassets in Resources */,
+				B79B7DF82B8E246A001E9F2D /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

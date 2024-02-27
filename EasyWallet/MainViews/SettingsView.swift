@@ -18,12 +18,11 @@ struct SettingsView: View {
     private var includeCostInNotifications = false
     @AppStorage("notificationTime")
     private var notificationTime = Date()
-    @AppStorage("iCloudSyncEnabled")
-    private var iCloudSyncEnabled = false
+//    @AppStorage("iCloudSyncEnabled")
+//    private var iCloudSyncEnabled = false
     @AppStorage("currency")
     private var currency = "USD"
-    @AppStorage("darkModeEnabled")
-    private var darkModeEnabled = false
+
     @AppStorage("monthlyLimit")
     private var monthlyLimit = 0.0
 //    @AppStorage("categories")
@@ -41,10 +40,11 @@ struct SettingsView: View {
                     DatePicker(String(localized: "Notification Time"), selection: $notificationTime, displayedComponents: .hourAndMinute)
                             .datePickerStyle(.compact)
                 }
-
+/*
                 Section(header: Text(String(localized: "Synchronization"))) {
                     Toggle(String(localized: "iCloud Sync"), isOn: $iCloudSyncEnabled)
                 }
+ */
 
                 Section(header: Text("Preferences")) {
                     Picker("Currency", selection: $currency) {
@@ -52,8 +52,7 @@ struct SettingsView: View {
                         Text(String(localized: "EUR")).tag("EUR")
                     }
                             .pickerStyle(.navigationLink)
-                    Toggle("Dark Mode", isOn: $darkModeEnabled)
-
+                
                     HStack {
                         Text(String(localized: "Monthly Limit"))
                         Spacer()
@@ -61,20 +60,20 @@ struct SettingsView: View {
                                 .multilineTextAlignment(.trailing)
                     }
 
-                    Picker(String(localized: "Language"), selection: $currency) {
+                  /*  Picker(String(localized: "Language"), selection: $currency) {
                         Text("Deutsch").tag("german")
                         Text("English").tag("English")
                     }
                             .pickerStyle(.navigationLink)
-
+*/
                 }
 
                 Section(header: Text(String(localized: "Support"))) {
                     Button(String(localized: "Imprint")) {
-                        openWebPage(url: "https://example.com/imprint")
+                        openWebPage(url: "https://golden-developer.de/imprint")
                     }
                     Button(String(localized: "Privacy Policy")) {
-                        openWebPage(url: "https://example.com/privacy")
+                        openWebPage(url: "https://golden-developer.de/privacy")
                     }
                     Button(String(localized: "Help")) {
                     }
@@ -105,7 +104,7 @@ struct SettingsView: View {
     }
 
     private func rateApp() {
-        if let url = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID") {
+        if let url = URL(string: "https://apps.apple.com/app/6478509715") {
             UIApplication.shared.open(url)
         }
     }

@@ -134,9 +134,6 @@
         }
       }
     },
-    "Deutsch" : {
-
-    },
     "Enable Notifications" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -153,9 +150,6 @@
           }
         }
       }
-    },
-    "English" : {
-
     },
     "EUR" : {
 

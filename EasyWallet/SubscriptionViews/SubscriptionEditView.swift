@@ -70,7 +70,7 @@ struct SubscriptionEditView: View {
                 )
                 Picker(NSLocalizedString("Reminde me", comment: ""), selection: $rememberCycle) {
                     ForEach(ContentView.RememberCycle.allCases) { planet in
-                        Text(planet.rawValue.capitalized)
+                        Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))
                     }
                 }
                 TextField(NSLocalizedString("Notes", comment: ""), text: $notes)

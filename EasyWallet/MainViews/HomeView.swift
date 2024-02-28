@@ -12,7 +12,7 @@ struct HomeView: View {
 
     @AppStorage("monthlyLimit")
     private var monthlyLimit = 0.0
-    
+
     @FetchRequest(
             sortDescriptors: [
                 NSSortDescriptor(keyPath: \Subscription.isPinned, ascending: false),
@@ -30,33 +30,32 @@ struct HomeView: View {
                         .font(.title)
                 Spacer()
                 HStack {
-                    Text(String(format: "%.2f €", summedAmount()))
-                            .font(.callout)
+                    Text(String(format: "%.2f", summedAmount()))
                             .id(isAnnual)
-                    Spacer()
-                    if (monthlyLimit > 0) {
-                        Text(String("/\(monthlyLimit)"))
+                    if monthlyLimit > 0 {
+                        Text(String("/"))
+                        Text(String("\(isAnnual ? (monthlyLimit * 12) : monthlyLimit)"))
                     }
-                    
+                    Text(String("€"))
                 }
-           
             }
                     .padding()
+
             Form {
                 Section {
-                                 Picker(selection: $isAnnual, label: Text(String(localized: "Payment rate"))) {
-                                     Text(String(localized: "Monthly"))
-                                             .font(.title)
-                                             .tag(false)
-                                     Text(String(localized: "Yearly"))
-                                             .font(.title)
-                                             .tag(true)
-                                 }
-                             }
-                             List(subscriptions) { subscription in
-                                 ItemDetailPartial(subscription: subscription, isAnnual: isAnnual)
-                                         .id(isAnnual)
-                             }
+                    Picker(selection: $isAnnual, label: Text(String(localized: "Payment rate"))) {
+                        Text(String(localized: "Monthly"))
+                                .font(.title)
+                                .tag(false)
+                        Text(String(localized: "Yearly"))
+                                .font(.title)
+                                .tag(true)
+                    }
+                }
+                List(subscriptions) { subscription in
+                    ItemDetailPartial(subscription: subscription, isAnnual: isAnnual)
+                            .id(isAnnual)
+                }
             }
                     .toolbar {
                         ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -73,7 +72,6 @@ struct HomeView: View {
         }
                 .background(Color(.systemGray6))
     }
-
 
     private func summedAmount() -> Double {
         var sum = 0.0

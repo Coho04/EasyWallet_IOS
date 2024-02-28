@@ -27,6 +27,16 @@ struct SubscriptionDetailView: View {
                 DetailRow(label: String(localized: "Created on"), value: subscription.timestamp.map {dateFormatter.string(from: $0)} ?? String(localized: "Unknown"))
             }
                     .textCase(nil)
+            
+            Section {
+                if let notes = subscription.notes, !notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    DetailRow(
+                        label: String(localized: "Notes"),
+                        value: notes
+                    )
+                }
+            }
+            
             Section(header: Text(String(localized: "Actions")).font(.headline)) {
                 Button(action: pinningItem) {
                     HStack {
@@ -112,20 +122,13 @@ struct SubscriptionDetailView: View {
 
         return nextBillDate
     }
-
-
-
-
-
     
     private func calculateNextBillDate(subscription: Subscription) -> Date? {
         guard let startBillDate = subscription.date else {
             return nil
         }
-
         var nextBillDate = startBillDate
         let today = Date()
-
         while nextBillDate <= today {
             if let updatedDate = Calendar.current.date(byAdding: .month, value: 1, to: nextBillDate) {
                 nextBillDate = updatedDate
@@ -133,7 +136,6 @@ struct SubscriptionDetailView: View {
                 return nil
             }
         }
-
         return nextBillDate
     }
 

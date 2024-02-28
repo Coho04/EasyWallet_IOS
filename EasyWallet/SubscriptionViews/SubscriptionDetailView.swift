@@ -106,34 +106,58 @@ struct SubscriptionDetailView: View {
 
     
     private func calculatePreviousBillDate(subscription: Subscription) -> Date? {
-        guard let startBillDate = subscription.date else {
+        guard let startBillDate = subscription.date, let repeatPattern = subscription.repeatPattern else {
             return nil
         }
-        let calendar = Calendar.current
         let today = Date()
+        let calendar = Calendar.current
 
-        var components = calendar.dateComponents([.year, .month, .day], from: startBillDate)
-        components.month! += 1
-        var nextBillDate = calendar.date(from: components)!
-        while nextBillDate > today {
-            components.month! -= 1
-            nextBillDate = calendar.date(from: components)!
-        }
-        if nextBillDate <= startBillDate {
-            return nil
+        var potentialPreviousBillDate = today
+
+        var dateComponentToAdd = DateComponents()
+        if repeatPattern == ContentView.PayRate.monthly.rawValue {
+            dateComponentToAdd.month = -1
+        } else if repeatPattern == ContentView.PayRate.yearly.rawValue {
+            dateComponentToAdd.year = -1
+        } else {
+            return nil 
         }
 
-        return nextBillDate
+        repeat {
+            if let updatedDate = calendar.date(byAdding: dateComponentToAdd, to: potentialPreviousBillDate) {
+                if updatedDate < today, updatedDate > startBillDate {
+                    return updatedDate
+                }
+                potentialPreviousBillDate = updatedDate
+            } else {
+                return nil
+            }
+        } while potentialPreviousBillDate > startBillDate
+
+        return nil
     }
+
     
     private func calculateNextBillDate(subscription: Subscription) -> Date? {
         guard let startBillDate = subscription.date else {
             return nil
         }
+        
         var nextBillDate = startBillDate
         let today = Date()
+        let calendar = Calendar.current
+        
+        var dateComponentToAdd = DateComponents()
+        if subscription.repeatPattern == ContentView.PayRate.monthly.rawValue {
+            dateComponentToAdd.month = 1
+        } else if subscription.repeatPattern == ContentView.PayRate.yearly.rawValue {
+            dateComponentToAdd.year = 1
+        } else {
+            return nil
+        }
+    
         while nextBillDate <= today {
-            if let updatedDate = Calendar.current.date(byAdding: .month, value: 1, to: nextBillDate) {
+            if let updatedDate = calendar.date(byAdding: dateComponentToAdd, to: nextBillDate) {
                 nextBillDate = updatedDate
             } else {
                 return nil

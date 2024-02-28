@@ -10,6 +10,9 @@ struct SubscriptionDetailView: View {
 
     @Environment(\.managedObjectContext) private var viewContext
     @ObservedObject var subscription: Subscription
+    
+    @Environment(\.presentationMode) 
+    var presentationMode
 
     var body: some View {
         List {
@@ -144,6 +147,7 @@ struct SubscriptionDetailView: View {
         viewContext.delete(subscription)
         do {
             try viewContext.save()
+            presentationMode.wrappedValue.dismiss()
         } catch {
             print("Delete failed: \(error.localizedDescription)")
         }

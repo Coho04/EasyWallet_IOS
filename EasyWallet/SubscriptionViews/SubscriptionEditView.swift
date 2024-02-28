@@ -31,15 +31,20 @@ struct SubscriptionEditView: View {
     }
 
     var amount: Double? {
-        Double(amountString)
+        let normalizedAmountString = amountString.replacingOccurrences(of: ",", with: ".")
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.numberStyle = .decimal
+        return formatter.number(from: normalizedAmountString)?.doubleValue
     }
 
     var isFormValid: Bool {
-        guard let amount = amount else {
+        guard let amountValue = amount, !title.isEmpty else {
             return false
         }
-        return !title.isEmpty && amount >= 0 && amount <= 10000
+        return amountValue >= 0.0 && amountValue <= 10000
     }
+
 
     var body: some View {
         List {

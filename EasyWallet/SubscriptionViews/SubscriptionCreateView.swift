@@ -38,24 +38,30 @@ struct SubscriptionCreateView: View {
                         .accessibility(hint: Text(String(localized: "URL of the subscription")))
                         .disableAutocorrection(true)
 
+            
                 HStack {
-                    TextField(String(localized: "Amount"), text: $amountString)
-                            .keyboardType(.decimalPad)
-                            .disableAutocorrection(true)
-                    Spacer()
-                    Text(String(localized: "Euro"))
-                }
-
-                Picker(String(localized: "Payment rate"), selection: $showGreeting) {
-                    ForEach(ContentView.PayRate.allCases) { planet in
-                        Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))
-                    }
-                }
+                      HStack {
+                          TextField(String(localized: "Amount"), text: $amountString)
+                              .keyboardType(.decimalPad)
+                              .disableAutocorrection(true)
+                          Text(String(localized: "Euro"))
+                      }
+                      .padding(.horizontal, 21)
+                  }
+                  .listRowInsets(EdgeInsets())
+                
 
                 DatePicker(String(localized: "Start Date"),
                         selection: $date,
                         displayedComponents: [.date]
                 )
+                
+                Picker(String(localized: "Payment rate"), selection: $showGreeting) {
+                    ForEach(ContentView.PayRate.allCases) { planet in
+                        Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))
+                    }
+                }
+                
                 Picker(String(localized: "Reminde me"), selection: $rememberCycle) {
                     ForEach(ContentView.RememberCycle.allCases) { planet in
                         Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))

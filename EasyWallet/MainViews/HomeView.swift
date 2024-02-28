@@ -10,6 +10,9 @@ import SwiftUI
 
 struct HomeView: View {
 
+    @AppStorage("monthlyLimit")
+    private var monthlyLimit = 0.0
+    
     @FetchRequest(
             sortDescriptors: [
                 NSSortDescriptor(keyPath: \Subscription.isPinned, ascending: false),
@@ -26,9 +29,17 @@ struct HomeView: View {
                 Text(String(localized: "Subscriptions"))
                         .font(.title)
                 Spacer()
-                Text(String(format: "%.2f €", summedAmount()))
-                        .font(.callout)
-                        .id(isAnnual)
+                HStack {
+                    Text(String(format: "%.2f €", summedAmount()))
+                            .font(.callout)
+                            .id(isAnnual)
+                    Spacer()
+                    if (monthlyLimit > 0) {
+                        Text(String("/\(monthlyLimit)"))
+                    }
+                    
+                }
+           
             }
                     .padding()
             Form {

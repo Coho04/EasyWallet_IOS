@@ -14,12 +14,17 @@ struct SubscriptionDetailView: View {
     var body: some View {
         List {
                 Section(header: Text(NSLocalizedString(subscription.title ?? "Unknown", comment: "Section Header")).font(.title2)) {
-                DetailRow(label: String(localized: "Costs"), value: "\(String(format: "%.2f €", subscription.amount)) \(subscription.repeatPattern ?? "monatlich")")
-                DetailRow(label: String(localized: "Next invoice"), value: subscription.date.map {
-                    dateFormatter.string(from: $0)
-                } ?? "Unbekannt")
-                DetailRow(label: String(localized: "Previous invoice"), value: "27. Januar 2024")
-                DetailRow(label: String(localized: "Created on"), value: subscription.timestamp.map {dateFormatter.string(from: $0)} ?? "Unbekannt")
+                    DetailRow(label: String(localized: "Costs"), value: "\(String(format: "%.2f €", subscription.amount)) \(repeatPattern(subscription: subscription))")
+                DetailRow(label: String(localized: "Next invoice"), value: calculateNextBillDate(subscription: subscription).map {
+                    DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)
+                } ?? "")
+                    DetailRow(
+                        label: String(localized: "Previous invoice"),
+                        value: calculatePreviousBillDate(subscription: subscription).map {
+                            DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)
+                        } ?? ""
+                    )
+                DetailRow(label: String(localized: "Created on"), value: subscription.timestamp.map {dateFormatter.string(from: $0)} ?? String(localized: "Unknown"))
             }
                     .textCase(nil)
             Section(header: Text(String(localized: "Actions")).font(.headline)) {
@@ -74,14 +79,64 @@ struct SubscriptionDetailView: View {
                 }
     }
 
-    private func calculatePreviousBillDate(from nextBillDate: Date?) -> Date {
-        guard let nextBillDate = nextBillDate else {
-            return Date()
+    private func repeatPattern(subscription: Subscription) -> String {
+        guard let patternString = subscription.repeatPattern else {
+            return ""
         }
-        var dateComponents = DateComponents()
-        dateComponents.month = -1
-        return Calendar.current.date(byAdding: dateComponents, to: nextBillDate) ?? Date()
+        
+        if let pattern = ContentView.PayRate(rawValue: patternString) {
+            return NSLocalizedString(pattern.rawValue.capitalized, comment: "")
+        } else {
+            return ""
+        }
     }
+
+    
+    private func calculatePreviousBillDate(subscription: Subscription) -> Date? {
+        guard let startBillDate = subscription.date else {
+            return nil
+        }
+        let calendar = Calendar.current
+        let today = Date()
+
+        var components = calendar.dateComponents([.year, .month, .day], from: startBillDate)
+        components.month! += 1
+        var nextBillDate = calendar.date(from: components)!
+        while nextBillDate > today {
+            components.month! -= 1
+            nextBillDate = calendar.date(from: components)!
+        }
+        if nextBillDate <= startBillDate {
+            return nil
+        }
+
+        return nextBillDate
+    }
+
+
+
+
+
+    
+    private func calculateNextBillDate(subscription: Subscription) -> Date? {
+        guard let startBillDate = subscription.date else {
+            return nil
+        }
+
+        var nextBillDate = startBillDate
+        let today = Date()
+
+        while nextBillDate <= today {
+            if let updatedDate = Calendar.current.date(byAdding: .month, value: 1, to: nextBillDate) {
+                nextBillDate = updatedDate
+            } else {
+                return nil
+            }
+        }
+
+        return nextBillDate
+    }
+
 
     private func deleteItem() {
         viewContext.delete(subscription)

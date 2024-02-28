@@ -20,7 +20,13 @@ struct ItemDetailPartial: View {
                             Text(convertedPrice(for: subscription))
                                     .font(.subheadline)
                                     .foregroundColor(subscription.isPaused ? .secondary : .gray)
-                            Text(remainingDays(for: subscription) ?? "Unkown")
+                            Spacer()
+                            HStack {
+                                Text(remainingDays(for: subscription) ?? "Unkown")
+                                Text(String(localized: "Days remaining"))
+                                    .font(.subheadline)
+                            }         .foregroundColor(subscription.isPaused ? .secondary : .gray)
+                           
                         }
                     }
                     Spacer()
@@ -35,17 +41,25 @@ struct ItemDetailPartial: View {
                 .opacity(subscription.isPaused ? 0.5 : 1)
     }
 
-    private func remainingDays(for subscription: Subscription) -> String? {
-        let calendar = Calendar.current
+    private func remainingDays(for subscription: Subscription) -> String? {  guard let startBillDate = subscription.date else {
+        return nil
+    }
 
-        guard let itemDate = subscription.date else {
+    var nextBillDate = startBillDate
+    let today = Date()
+
+    while nextBillDate <= today {
+        if let updatedDate = Calendar.current.date(byAdding: .month, value: 1, to: nextBillDate) {
+            nextBillDate = updatedDate
+        } else {
             return nil
         }
-
+    }
+        let calendar = Calendar.current
+  
         let currentDay = calendar.startOfDay(for: Date())
-        let nextPayment = calendar.startOfDay(for: itemDate)
+        let nextPayment = calendar.startOfDay(for: nextBillDate)
         let components = calendar.dateComponents([.day], from: currentDay, to: nextPayment)
-
         return "\(components.day ?? 0)"
     }
 

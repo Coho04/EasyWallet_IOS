@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import UserNotifications
 
 struct ContentView: View {
 
@@ -42,9 +43,28 @@ struct ContentView: View {
                     .tabItem {
                         Label(String(localized: "Settings"), systemImage: "gear")
                     }
+        }    .onAppear {
+            requestPermission()
         }
     }
+    
+    func requestPermission() {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                if granted {
+                    print("Berechtigung erteilt.")
+                    DispatchQueue.main.async {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+                } else {
+                    print("Berechtigung verweigert.")
+                    if let error = error {
+                        print("Fehler: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
 }
+
 
 extension Subscription {
     static var example: Subscription {

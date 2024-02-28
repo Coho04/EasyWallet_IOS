@@ -61,7 +61,7 @@ struct SubscriptionEditView: View {
 
                 Picker(NSLocalizedString("Payment rate", comment: ""), selection: $paymentRate) {
                     ForEach(ContentView.PayRate.allCases) { planet in
-                        Text(planet.rawValue.capitalized)
+                        Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))
                     }
                 }
                 DatePicker(NSLocalizedString("Start Date", comment: ""),
@@ -84,7 +84,7 @@ struct SubscriptionEditView: View {
             }
         }
                 .textFieldStyle(.roundedBorder)
-                .navigationTitle(String(localized: "Add subscription"))
+                .navigationTitle(String(localized: "Edit subscription"))
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(String(localized: "Save")) {

@@ -76,7 +76,12 @@ struct HomeView: View {
     private func summedAmount() -> Double {
         var sum = 0.0
         for subscription in subscriptions {
-            sum += subscription.amount
+            if (subscription.repeatPattern == ContentView.PayRate.monthly.rawValue) {
+                sum += subscription.amount
+            } else {
+                sum += (subscription.amount/12)
+            }
+            
         }
         return isAnnual ? sum * 12 : sum
     }

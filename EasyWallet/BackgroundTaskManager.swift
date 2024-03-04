@@ -101,10 +101,9 @@ class BackgroundTaskManager {
                 return
             }
             for subscription in subscriptions {
-                guard let eventDate = subscription.date else { continue } // Assuming `date` is the attribute for the event date
+                guard let eventDate = subscription.date else { continue }
 
                 var triggerDate: Date?
-
                 let calendar = Calendar.current
                 switch subscription.remembercycle {
                 case ContentView.RememberCycle.None.rawValue:

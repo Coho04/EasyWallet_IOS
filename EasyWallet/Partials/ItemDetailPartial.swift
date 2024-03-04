@@ -24,9 +24,10 @@ struct ItemDetailPartial: View {
                             HStack {
                                 Text(remainingDays(for: subscription) ?? "Unkown")
                                 Text(String(localized: "Days remaining"))
-                                    .font(.subheadline)
-                            }         .foregroundColor(subscription.isPaused ? .secondary : .gray)
-                           
+                                        .font(.subheadline)
+                            }
+                                    .foregroundColor(subscription.isPaused ? .secondary : .gray)
+
                         }
                     }
                     Spacer()
@@ -41,23 +42,26 @@ struct ItemDetailPartial: View {
                 .opacity(subscription.isPaused ? 0.5 : 1)
     }
 
-    private func remainingDays(for subscription: Subscription) -> String? {  guard let startBillDate = subscription.date else {
-        return nil
-    }
-
-    var nextBillDate = startBillDate
-    let today = Date()
-
-    while nextBillDate <= today {
-        if let updatedDate = Calendar.current.date(byAdding: .month, value: 1, to: nextBillDate) {
-            nextBillDate = updatedDate
-        } else {
+    private func remainingDays(for subscription: Subscription) -> String? {
+        guard let startBillDate = subscription.date else {
             return nil
         }
-    }
+
+        var nextBillDate = startBillDate
+        let today = Date()
+
+        let addYear = subscription.repeatPattern == ContentView.PayRate.yearly.rawValue;
+
+        while nextBillDate <= today {
+            if let updatedDate = Calendar.current.date(byAdding: addYear ? .year : .month, value: 1, to: nextBillDate) {
+                nextBillDate = updatedDate
+            } else {
+                return nil
+            }
+        }
         let calendar = Calendar.current
-  
-        let currentDay = calendar.startOfDay(for: Date())
+
+        let currentDay = calendar.startOfDay(for: today)
         let nextPayment = calendar.startOfDay(for: nextBillDate)
         let components = calendar.dateComponents([.day], from: currentDay, to: nextPayment)
         return "\(components.day ?? 0)"

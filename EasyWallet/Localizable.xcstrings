@@ -9,6 +9,12 @@
             "value" : "%@"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -35,6 +41,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktionen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actions"
           }
         },
         "es" : {
@@ -66,6 +78,12 @@
             "value" : "Abo hinzufügen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add subscription"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -93,6 +111,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anzahl"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amount"
           }
         },
         "es" : {
@@ -124,6 +148,12 @@
             "value" : "Dieses Abonnement kaufen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buy this subscription"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -151,6 +181,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entwickler kontaktieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact Developer"
           }
         },
         "es" : {
@@ -182,6 +218,12 @@
             "value" : "Dieses Abonnement fortsetzen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue this subscription"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -209,6 +251,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kosten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Costs"
           }
         },
         "es" : {
@@ -336,7 +384,43 @@
         }
       }
     },
+    "Days" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tage"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Days"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Días"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jours"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giorni"
+          }
+        }
+      }
+    },
     "Days remaining" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -414,6 +498,12 @@
             "value" : "Abo bearbeiten"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit subscription"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -470,8 +560,15 @@
       }
     },
     "EUR" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EUR"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "EUR"
@@ -610,6 +707,12 @@
             "value" : "Hallo, Welt!"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello, World!"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -661,6 +764,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aiuto"
+          }
+        }
+      }
+    },
+    "Hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinweis"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hint"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sugerencia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indice"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggerimento"
           }
         }
       }
@@ -980,6 +1118,41 @@
         }
       }
     },
+    "Notification deactivated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachrichtigung deaktiviert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification deactivated"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificación desactivada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification désactivée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifica disattivata"
+          }
+        }
+      }
+    },
     "Notification Time" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1046,6 +1219,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifiche"
+          }
+        }
+      }
+    },
+    "one_week_debited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 1 Woche werden %@ abgebucht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 1 week %@ will be debited"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En 1 semana se cargará %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans 1 semaine, %@ sera débité"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tra 1 settimana verrà addebitato %@"
+          }
+        }
+      }
+    },
+    "one_week_debited_with_coasts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 1 Woche werden %@ abgebucht, %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 1 week %@ will be debited, %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En 1 semana se cargará %@, %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans 1 semaine, %@ sera débité, %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tra 1 settimana verrà addebitato %@, %@"
           }
         }
       }
@@ -1155,6 +1398,41 @@
         }
       }
     },
+    "Open Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen öffnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir la configuración"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir les paramètres"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprire le impostazioni"
+          }
+        }
+      }
+    },
     "Pause this subscription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1199,6 +1477,12 @@
             "value" : "Bezahlungsrate"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payment rate"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1226,6 +1510,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dieses Abonnement anheften"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin this subscription"
           }
         },
         "es" : {
@@ -1257,6 +1547,12 @@
             "value" : "Einstellungen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferences"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1284,6 +1580,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vorherige Rechnung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous invoice"
           }
         },
         "es" : {
@@ -1315,6 +1617,12 @@
             "value" : "Datenschutzbestimmungen"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1344,6 +1652,12 @@
             "value" : "Bewerten Sie die App"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate the App"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1371,6 +1685,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erinnern Sie mich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminde me"
           }
         },
         "es" : {
@@ -1437,6 +1757,12 @@
             "value" : "Speichern"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1499,6 +1825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Start Datum"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Date"
           }
         },
         "es" : {
@@ -1635,6 +1967,12 @@
             "value" : "Hilfe"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1664,6 +2002,12 @@
             "value" : "Synchronisierung"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchronization"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1691,6 +2035,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trinkgeldglas"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tip Jar"
           }
         },
         "es" : {
@@ -1748,6 +2098,216 @@
         }
       }
     },
+    "today_debited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heuten wird %@ abgebucht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today %@ will be debited"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoy se cargará el %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aujourd'hui, %@ sera débité"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oggi verranno addebitate le %@"
+          }
+        }
+      }
+    },
+    "today_debited_with_coasts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heuten wird %@ abgebucht, %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today %@ will be debited, %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoy se cargará el %@, %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aujourd'hui, %@ sera débité, %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oggi verranno addebitate le %@, %@"
+          }
+        }
+      }
+    },
+    "tomorrow_debited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morgen wird %@ abgebucht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow %@ will be debited"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mañana se cargará %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demain, %@ sera débité de"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Domani verrà addebitata la %@"
+          }
+        }
+      }
+    },
+    "tomorrow_debited_with_coasts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morgen wird %@ abgebucht, %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow %@ will be debited, %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mañana se cargará %@, %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demain, %@ sera débité de %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Domani verrà addebitata la %@, %@"
+          }
+        }
+      }
+    },
+    "two_days_debited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 2 Tagen wird %@ abgebucht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 2 days %@ will be debited"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dentro de 2 días se cargará el %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans 2 jours, %@ sera débité"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tra 2 giorni verrà addebitato %@"
+          }
+        }
+      }
+    },
+    "two_days_debited_with_coasts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 2 Tagen wird %@ abgebucht, %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 2 days %@ will be debited, %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dentro de 2 días se cargará el %@, %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans 2 jours, %@ sera débité, %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tra 2 giorni verrà addebitato %@, %@"
+          }
+        }
+      }
+    },
     "Twodaysbefore" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1792,6 +2352,12 @@
             "value" : "Unbekannt"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1821,6 +2387,12 @@
             "value" : "Unbekanntes Abonnement"
           }
         },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown subscription"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1848,6 +2420,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dieses Abonnement lösen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpin this subscription."
           }
         },
         "es" : {
@@ -1941,8 +2519,15 @@
       }
     },
     "USD" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "USD"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "USD"
@@ -1968,6 +2553,41 @@
         }
       }
     },
+    "Would you like to activate notifications in the settings?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Möchten Sie Benachrichtigungen in den Einstellungen aktivieren?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Would you like to activate notifications in the settings?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Quieres activar las notificaciones en los ajustes?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Souhaitez-vous activer les notifications dans les paramètres ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volete attivare le notifiche nelle impostazioni?"
+          }
+        }
+      }
+    },
     "Yearly" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1975,6 +2595,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Jährlich"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yearly"
           }
         },
         "es" : {

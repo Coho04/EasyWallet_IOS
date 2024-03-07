@@ -22,12 +22,11 @@ struct ItemDetailPartial: View {
                                     .foregroundColor(subscription.isPaused ? .secondary : .gray)
                             Spacer()
                             HStack {
-                                Text(remainingDays(for: subscription) ?? "Unkown")
-                                Text(String(localized: "Days remaining"))
+                                Text(remainingDays(for: subscription) ?? String(localized: "Unknown"))
+                                Text(String(localized: "Days"))
                                         .font(.subheadline)
                             }
                                     .foregroundColor(subscription.isPaused ? .secondary : .gray)
-
                         }
                     }
                     Spacer()
@@ -42,16 +41,14 @@ struct ItemDetailPartial: View {
                 .opacity(subscription.isPaused ? 0.5 : 1)
     }
 
-    private func remainingDays(for subscription: Subscription) -> String? {
+    public func remainingDays(for subscription: Subscription) -> String? {
         guard let startBillDate = subscription.date else {
             return nil
         }
 
         var nextBillDate = startBillDate
         let today = Date()
-
         let addYear = subscription.repeatPattern == ContentView.PayRate.yearly.rawValue;
-
         while nextBillDate <= today {
             if let updatedDate = Calendar.current.date(byAdding: addYear ? .year : .month, value: 1, to: nextBillDate) {
                 nextBillDate = updatedDate

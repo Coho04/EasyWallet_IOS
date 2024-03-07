@@ -38,31 +38,14 @@ class BackgroundTaskManager {
 
     static let shared = BackgroundTaskManager(context: PersistenceController.shared.container.viewContext)
 
-    func register() {
-        logger.log(#function)
+    func registerBackgroundTasks() {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: backgroundTaskIdentifier, using: nil) { task in
-            guard let bgTask = task as? BGAppRefreshTask else {
-                return
-            }
-            self.handleTask(bgTask)
+            self.handleAppRefresh(task as! BGAppRefreshTask)
         }
     }
 
-    private func handleTask(_ task: BGAppRefreshTask) {
-        logger.log(#function)
-        print("handleTask")
-        if !notificationsEnabled {
-            print("Notifications are disabled. Skipping.")
-            logger.log("Notifications are disabled. Skipping.")
-            task.setTaskCompleted(success: true)
-            return
-        }
-        print("Notifications are enabled. Scheduling.")
-
+    private func handleAppRefresh(_ task: BGAppRefreshTask) {
         scheduleAppRefresh()
-        task.expirationHandler = {
-            task.setTaskCompleted(success: false)
-        }
         scheduleNotifications { success in
             task.setTaskCompleted(success: success)
         }
@@ -73,13 +56,14 @@ class BackgroundTaskManager {
         let request = BGAppRefreshTaskRequest(identifier: backgroundTaskIdentifier)
         do {
             try BGTaskScheduler.shared.submit(request)
+
             logger.log("Task request submitted to scheduler")
         } catch {
             logger.error("Failed to schedule app refresh: \(error.localizedDescription, privacy: .public)")
         }
     }
 
-    private func scheduleNotifications(completion: @escaping (Bool) -> Void) {
+    public func scheduleNotifications(completion: @escaping (Bool) -> Void) {
         logger.log(#function)
         logger.log("Running scheduleNotifications")
         print("lastNotificationKey: \(lastNotificationKey)")
@@ -100,51 +84,82 @@ class BackgroundTaskManager {
                 completion(true)
                 return
             }
-            for subscription in subscriptions {
-                guard let eventDate = subscription.date else { continue }
 
-                var triggerDate: Date?
-                let calendar = Calendar.current
-                switch subscription.remembercycle {
-                case ContentView.RememberCycle.None.rawValue:
+            var notificationsScheduled = false
+            for subscription in subscriptions {
+                guard let eventDate = SubscriptionDetailView.calculateNextBillDate(subscription: subscription) else {
                     continue
+                }
+                let calendar = Calendar.current
+                var dateComponents = calendar.dateComponents([.year, .month, .day], from: eventDate)
+
+                switch subscription.remembercycle {
                 case ContentView.RememberCycle.SameDay.rawValue:
-                    triggerDate = calendar.startOfDay(for: eventDate)
-                case ContentView.RememberCycle.OneDayBefore.rawValue:
-                    triggerDate = calendar.date(byAdding: .day, value: -1, to: calendar.startOfDay(for: eventDate))
-                case ContentView.RememberCycle.TwoDaysBefore.rawValue:
-                    triggerDate = calendar.date(byAdding: .day, value: -2, to: calendar.startOfDay(for: eventDate))
-                case ContentView.RememberCycle.OneWeekBefore.rawValue:
-                    triggerDate = calendar.date(byAdding: .weekOfYear, value: -1, to: calendar.startOfDay(for: eventDate))
-                default:
                     break
+                case ContentView.RememberCycle.OneDayBefore.rawValue:
+                    dateComponents.day! -= 1
+                case ContentView.RememberCycle.TwoDaysBefore.rawValue:
+                    dateComponents.day! -= 2
+                case ContentView.RememberCycle.OneWeekBefore.rawValue:
+                    dateComponents.day! -= 7
+                default:
+                    continue
                 }
 
-                guard let triggerDate = triggerDate else { continue }
+                guard let triggerDate = calendar.date(from: dateComponents) else {
+                    continue
+                }
+                if calendar.isDateInToday(triggerDate) {
+                    let content = UNMutableNotificationContent()
+                    content.title = String(localized: "Hint")
+                    let title = subscription.title ?? "your item"
+                    let cost = String(subscription.amount) + "€"
+                    var bodyStringKey = ""
+                    switch subscription.remembercycle {
+                    case ContentView.RememberCycle.SameDay.rawValue:
+                        bodyStringKey = includeCostInNotifications ? "today_debited_with_coasts" : "today_debited"
+                        break
+                    case ContentView.RememberCycle.OneDayBefore.rawValue:
+                        bodyStringKey = includeCostInNotifications ? "tomorrow_debited_with_coasts" : "tomorrow_debited"
+                        break
+                    case ContentView.RememberCycle.TwoDaysBefore.rawValue:
+                        bodyStringKey = includeCostInNotifications ? "two_days_debited_with_coasts" : "two_days_debited"
+                        break
+                    case ContentView.RememberCycle.OneWeekBefore.rawValue:
+                        bodyStringKey = includeCostInNotifications ? "one_week_debited_with_coasts" : "one_week_debited"
+                        break
+                    default:
+                        continue
+                    }
+                    content.body = includeCostInNotifications ? String(format: NSLocalizedString(bodyStringKey, comment: ""), title, cost) : String(format: NSLocalizedString(bodyStringKey, comment: ""), title)
 
-                let content = UNMutableNotificationContent()
-                content.title = "Reminder"
-                let bodyText = includeCostInNotifications ? "Don't forget about \(subscription.title ?? "your item"), costing \(subscription.amount)" : "Don't forget about \(subscription.title ?? "your item")!"
-                content.body = bodyText
+                    let triggerTime = Calendar.current.date(byAdding: .minute, value: 1, to: Date())!
+                    logger.log("Scheduling notification for: \(triggerTime)")
 
-                let timeInterval = triggerDate.timeIntervalSinceNow
-                if timeInterval > 0 {
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+                    let triggerDaily = Calendar.current.dateComponents([.hour, .minute, .second], from: triggerTime)
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDaily, repeats: false)
+
                     let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
                     center.add(request) { error in
                         if let error = error {
-                            logger.error("Failed to add notification: \(error.localizedDescription, privacy: .public)")
+                            print("Failed to add notification: \(error)")
                             completion(false)
                             return
                         }
                     }
+                    notificationsScheduled = true
                 }
             }
-            userDefaults.set(Date(), forKey: lastNotificationKey)
-            completion(true)
+
+            if notificationsScheduled {
+                print("At least one notification was scheduled for today.")
+                completion(true)
+            } else {
+                print("No notifications needed to be scheduled for today.")
+                completion(false)
+            }
         } catch {
-            logger.error("Failed to fetch items: \(error.localizedDescription, privacy: .public)")
+            print("Failed to fetch items: \(error)")
             completion(false)
         }
     }

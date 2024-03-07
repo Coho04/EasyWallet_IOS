@@ -23,10 +23,10 @@ struct SettingsView: View {
     @AppStorage("currency")
     private var currency = "USD"
 
+    @State
+    private var showingSettingsAlert = false
     @AppStorage("monthlyLimit")
     private var monthlyLimit = 0.0
-//    @AppStorage("categories")
-//    private var categories = "Food, Utilities, Entertainment"
 
     var body: some View {
         NavigationStack {
@@ -47,25 +47,18 @@ struct SettingsView: View {
  */
 
                 Section(header: Text("Preferences")) {
-                    Picker("Currency", selection: $currency) {
-                        Text(String(localized: "USD")).tag("USD")
-                        Text(String(localized: "EUR")).tag("EUR")
-                    }
-                            .pickerStyle(.navigationLink)
-                
+                    //  Picker("Currency", selection: $currency) {
+                    //     Text(String(localized: "USD")).tag("USD")
+                    //       Text(String(localized: "EUR")).tag("EUR")
+                    //   }
+                    //          .pickerStyle(.navigationLink)
+
                     HStack {
                         Text(String(localized: "Monthly Limit"))
                         Spacer()
                         TextField(String(localized: "Monthly Limit"), value: $monthlyLimit, format: .currency(code: currency))
                                 .multilineTextAlignment(.trailing)
                     }
-
-                  /*  Picker(String(localized: "Language"), selection: $currency) {
-                        Text("Deutsch").tag("german")
-                        Text("English").tag("English")
-                    }
-                            .pickerStyle(.navigationLink)
-*/
                 }
 
                 Section(header: Text(String(localized: "Support"))) {
@@ -76,12 +69,16 @@ struct SettingsView: View {
                         openWebPage(url: "https://golden-developer.de/privacy")
                     }
                     Button(String(localized: "Help")) {
+                        openWebPage(url: "https://support.golden-developer.de")
                     }
                     Button(String(localized: "Feedback")) {
+                        rateApp()
                     }
                     Button(String(localized: "Contact Developer")) {
+                        openWebPage(url: "https://support.golden-developer.de")
                     }
                     Button(String(localized: "Tip Jar")) {
+                        openWebPage(url: "https://donate.golden-developer.de")
                     }
                     Button(String(localized: "Rate the App")) {
                         rateApp()
@@ -90,11 +87,53 @@ struct SettingsView: View {
             }
                     .navigationTitle(String(localized: "Settings"))
         }
+                .alert(isPresented: $showingSettingsAlert) {
+                    Alert(
+                            title: Text(String(localized: "Notification deactivated")),
+                            message: Text(String(localized: "Would you like to activate notifications in the settings?")),
+                            primaryButton: .default(Text(String(localized: "Open Settings"))) {
+                                if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                                    UIApplication.shared.open(url)
+                                }
+                            },
+                            secondaryButton: .cancel()
+                    )
+                }
     }
 
     private func handleNotificationsToggle(isEnabled: Bool) {
         if isEnabled {
+            let center = UNUserNotificationCenter.current()
+            center.getNotificationSettings { settings in
+                DispatchQueue.main.async {
+                    switch settings.authorizationStatus {
+                    case .notDetermined:
+                        requestNotificationsAuthorization(center: center)
+                    case .denied:
+                        promptUserToOpenSettings()
+                    case .authorized, .provisional, .ephemeral:
+                        break
+                    @unknown default:
+                        break
+                    }
+                }
+            }
         }
+    }
+
+    private func requestNotificationsAuthorization(center: UNUserNotificationCenter) {
+        NSLog("requestNotificationsAuthorization")
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                NSLog("Notifications authorized")
+            } else {
+                NSLog("Notifications denied: \(error?.localizedDescription ?? "unknown error")")
+            }
+        }
+    }
+
+    private func promptUserToOpenSettings() {
+        self.showingSettingsAlert = true
     }
 
     private func openWebPage(url: String) {

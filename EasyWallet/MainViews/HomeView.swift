@@ -20,8 +20,28 @@ struct HomeView: View {
                 NSSortDescriptor(keyPath: \Subscription.timestamp, ascending: true)
             ],
             animation: .default)
-    private var subscriptions: FetchedResults<Subscription>
+    private var fetchedSubscriptions: FetchedResults<Subscription>
     @State private var isAnnual: Bool = false
+
+    
+    var sortedSubscriptions: [Subscription] {
+        let subscriptions = fetchedSubscriptions.map { $0 }
+        return subscriptions.sorted { firstSubscription, secondSubscription in
+            if firstSubscription.isPinned != secondSubscription.isPinned {
+                return firstSubscription.isPinned && !secondSubscription.isPinned
+            }
+            if firstSubscription.isPaused != secondSubscription.isPaused {
+                return !firstSubscription.isPaused && secondSubscription.isPaused
+            }
+            guard let firstNextPayment = remainingDays(for: firstSubscription),
+                  let secondNextPayment = remainingDays(for: secondSubscription),
+                  let firstDays = Int(firstNextPayment),
+                  let secondDays = Int(secondNextPayment) else {
+                return false
+            }
+            return firstDays < secondDays
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -52,7 +72,7 @@ struct HomeView: View {
                                 .tag(true)
                     }
                 }
-                List(subscriptions) { subscription in
+                List(sortedSubscriptions) { subscription in
                     ItemDetailPartial(subscription: subscription, isAnnual: isAnnual)
                             .id(isAnnual)
                 }
@@ -65,17 +85,43 @@ struct HomeView: View {
                         }
                     }
                     .overlay(Group {
-                        if subscriptions.isEmpty {
+                        if sortedSubscriptions.isEmpty {
                             Text(String(localized: "Oops, looks like there's no data..."))
                         }
                     })
         }
                 .background(Color(.systemGray6))
     }
+    
+    
+    public func remainingDays(for subscription: Subscription) -> String? {
+        guard let startBillDate = subscription.date else {
+            return nil
+        }
+
+        var nextBillDate = startBillDate
+        let today = Date()
+
+        let addYear = subscription.repeatPattern == ContentView.PayRate.yearly.rawValue;
+
+        while nextBillDate <= today {
+            if let updatedDate = Calendar.current.date(byAdding: addYear ? .year : .month, value: 1, to: nextBillDate) {
+                nextBillDate = updatedDate
+            } else {
+                return nil
+            }
+        }
+        let calendar = Calendar.current
+
+        let currentDay = calendar.startOfDay(for: today)
+        let nextPayment = calendar.startOfDay(for: nextBillDate)
+        let components = calendar.dateComponents([.day], from: currentDay, to: nextPayment)
+        return "\(components.day ?? 0)"
+    }
 
     private func summedAmount() -> Double {
         var sum = 0.0
-        for subscription in subscriptions {
+        for subscription in sortedSubscriptions {
             if (subscription.repeatPattern == ContentView.PayRate.monthly.rawValue) {
                 sum += subscription.amount
             } else {

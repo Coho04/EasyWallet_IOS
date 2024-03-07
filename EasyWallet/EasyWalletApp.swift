@@ -16,7 +16,6 @@ struct EasyWalletApp: App {
     @Environment(\.managedObjectContext) private var viewContext
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-
     @Environment(\.scenePhase) private var phase
 
     var body: some Scene {
@@ -26,6 +25,10 @@ struct EasyWalletApp: App {
                 .onChange(of: phase) { oldPhase, newPhase in
                     switch newPhase {
                     case .background:  BackgroundTaskManager.shared.scheduleAppRefresh()
+                        break;
+//                    case .active:
+//                        BackgroundTaskManager.shared.scheduleAppRefresh()
+//                        break;
                     default: break
                     }
                 }

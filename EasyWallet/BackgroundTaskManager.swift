@@ -112,7 +112,7 @@ class BackgroundTaskManager {
                 if calendar.isDateInToday(triggerDate) {
                     let content = UNMutableNotificationContent()
                     content.title = String(localized: "Hint")
-                    let title = subscription.title ?? "your item"
+                    let title = subscription.title ?? String(localized: "Unknown")
                     let cost = String(subscription.amount) + "€"
                     var bodyStringKey = ""
                     switch subscription.remembercycle {

@@ -26,9 +26,6 @@ struct EasyWalletApp: App {
                     switch newPhase {
                     case .background:  BackgroundTaskManager.shared.scheduleAppRefresh()
                         break;
-//                    case .active:
-//                        BackgroundTaskManager.shared.scheduleAppRefresh()
-//                        break;
                     default: break
                     }
                 }

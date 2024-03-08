@@ -51,7 +51,7 @@ struct SubscriptionEditView: View {
             Section(header: Text(NSLocalizedString("Subscription information", comment: "Section Header"))) {
                 TextField(NSLocalizedString("Title", comment: "Section Header"), text: $title)
                         .disableAutocorrection(true)
-                TextField(NSLocalizedString("URL", comment: "Section Header"), text: $url)
+                TextField(NSLocalizedString("URL", comment: "Section Header"), text: binding)
                         .keyboardType(.URL)
                         .accessibility(hint: Text(NSLocalizedString("URL of the subscription", comment: "Accessibility Hint")))
                         .disableAutocorrection(true)
@@ -98,6 +98,23 @@ struct SubscriptionEditView: View {
                                 .disabled(!isFormValid)
                     }
                 }
+    }
+
+    private var binding: Binding<String> {
+        Binding<String>(
+                get: { self.url },
+                set: {
+                    if !$0.hasPrefix("https://") {
+                        if $0.hasPrefix("http://") {
+                            self.url = "https://" + $0.dropFirst(7)
+                        } else {
+                            self.url = "https://" + $0
+                        }
+                    } else {
+                        self.url = $0
+                    }
+                }
+        )
     }
 
     private func saveItem() {

@@ -27,6 +27,7 @@
 		B73E59582B8D286F00C8D6FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59572B8D286F00C8D6FF /* AppDelegate.swift */; };
 		B79B7DF82B8E246A001E9F2D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B79B7DF72B8E246A001E9F2D /* Localizable.xcstrings */; };
 		B79B7DFE2B8E2736001E9F2D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B79B7DFD2B8E2736001E9F2D /* Settings.bundle */; };
+		B7DC0FDC2B9B172A004FB722 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = B7DC0FDB2B9B172A004FB722 /* SwiftUICharts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7DC0FDC2B9B172A004FB722 /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +212,9 @@
 			dependencies = (
 			);
 			name = EasyWallet;
+			packageProductDependencies = (
+				B7DC0FDB2B9B172A004FB722 /* SwiftUICharts */,
+			);
 			productName = EasyWallet;
 			productReference = B73E59122B8D1AA200C8D6FF /* EasyWallet.app */;
 			productType = "com.apple.product-type.application";
@@ -285,6 +290,9 @@
 				it,
 			);
 			mainGroup = B73E59092B8D1AA100C8D6FF;
+			packageReferences = (
+				B7DC0FDA2B9B172A004FB722 /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
+			);
 			productRefGroup = B73E59132B8D1AA200C8D6FF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -525,7 +533,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.golden-developer.EasyWallet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -564,7 +572,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.golden-developer.EasyWallet";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -709,6 +717,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B7DC0FDA2B9B172A004FB722 /* XCRemoteSwiftPackageReference "SwiftUICharts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/willdale/SwiftUICharts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B7DC0FDB2B9B172A004FB722 /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7DC0FDA2B9B172A004FB722 /* XCRemoteSwiftPackageReference "SwiftUICharts" */;
+			productName = SwiftUICharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		B73E59202B8D1AA400C8D6FF /* EasyWallet.xcdatamodeld */ = {

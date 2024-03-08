@@ -33,7 +33,7 @@ struct SubscriptionCreateView: View {
             Section {
                 TextField(String(localized: "Title"), text: $title)
                         .disableAutocorrection(true)
-                TextField(String(localized: "URL"), text: $url)
+                TextField(String(localized: "URL"), text: binding)
                         .keyboardType(.URL)
                         .accessibility(hint: Text(String(localized: "URL of the subscription")))
                         .disableAutocorrection(true)
@@ -88,6 +88,23 @@ struct SubscriptionCreateView: View {
                                 .disabled(!isFormValid)
                     }
                 }
+    }
+
+    private var binding: Binding<String> {
+        Binding<String>(
+                get: { self.url },
+                set: {
+                    if !$0.hasPrefix("https://") {
+                        if $0.hasPrefix("http://") {
+                            self.url = "https://" + $0.dropFirst(7)
+                        } else {
+                            self.url = "https://" + $0
+                        }
+                    } else {
+                        self.url = $0
+                    }
+                }
+        )
     }
 
 

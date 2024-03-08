@@ -33,12 +33,11 @@ struct ContentView: View {
                         Image(systemName: "creditcard.circle")
                         Text(String(localized: "Subscriptions"))
                     }
-      /*      StatisticView()
+            StatisticView()
                     .tabItem {
                         Image(systemName: "chart.bar")
                         Text(String(localized: "Statistics"))
-                    }*/
-//
+                    }
             SettingsView()
                     .tabItem {
                         Label(String(localized: "Settings"), systemImage: "gear")
@@ -51,14 +50,14 @@ struct ContentView: View {
     func requestPermission() {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
                 if granted {
-                    print("Berechtigung erteilt.")
+                    print("Authorization granted.")
                     DispatchQueue.main.async {
                         UIApplication.shared.registerForRemoteNotifications()
                     }
                 } else {
-                    print("Berechtigung verweigert.")
+                    print("Authorization denied.")
                     if let error = error {
-                        print("Fehler: \(error.localizedDescription)")
+                        print("Error: \(error.localizedDescription)")
                     }
                 }
             }

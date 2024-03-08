@@ -16,7 +16,22 @@ struct SubscriptionDetailView: View {
 
     var body: some View {
         List {
-            Section(header: Text(NSLocalizedString(subscription.title ?? "Unknown", comment: "Section Header")).font(.title2)) {
+            Section(header:
+            HStack {
+                if let urlString = subscription.url, let url = URL(string: urlString), let faviconURL = URL(string: "https://www.google.com/s2/favicons?sz=64&domain_url=\(url.host ?? "")") {
+                    AsyncImage(url: faviconURL) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                            .frame(width: 20, height: 20)
+                            .cornerRadius(5)
+                            .padding(.trailing, 5)
+                }
+                Text(NSLocalizedString(subscription.title ?? "Unknown", comment: "Section Header"))
+                        .font(.title2)
+            }
+            ) {
                 DetailRow(label: String(localized: "Costs"), value: "\(String(format: "%.2f €", subscription.amount)) \(repeatPattern(subscription: subscription))")
                 DetailRow(label: String(localized: "Next invoice"), value: SubscriptionDetailView.calculateNextBillDate(subscription: subscription).map {
                     DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)

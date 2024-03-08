@@ -43,6 +43,16 @@ struct SettingsView: View {
 /*
                 Section(header: Text(String(localized: "Synchronization"))) {
                     Toggle(String(localized: "iCloud Sync"), isOn: $iCloudSyncEnabled)
+
+                    Button(String(localized: "Synchronize Now")) {
+                        iCloudSync()
+                    }
+                    Button(String(localized: "Export Data")) {
+                        exportData()
+                    }
+                    Button(String(localized: "Import Data")) {
+                        importData()
+                    }
                 }
  */
 
@@ -120,6 +130,17 @@ struct SettingsView: View {
             }
         }
     }
+
+    private func iCloudSync() {
+
+    }
+
+    private func exportData() {
+    }
+
+    private func importData() {
+    }
+
 
     private func requestNotificationsAuthorization(center: UNUserNotificationCenter) {
         NSLog("requestNotificationsAuthorization")

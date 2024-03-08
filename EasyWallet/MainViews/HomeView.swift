@@ -22,24 +22,67 @@ struct HomeView: View {
             animation: .default)
     private var fetchedSubscriptions: FetchedResults<Subscription>
     @State private var isAnnual: Bool = false
+    @State private var searchText: String = ""
+    @State private var sortOption: SortOption = .remainingDaysAscending
 
-    
+    enum SortOption {
+        case alphabeticalAscending, alphabeticalDescending, costAscending, costDescending, remainingDaysAscending, remainingDaysDescending
+    }
+
     var sortedSubscriptions: [Subscription] {
-        let subscriptions = fetchedSubscriptions.map { $0 }
-        return subscriptions.sorted { firstSubscription, secondSubscription in
-            if firstSubscription.isPinned != secondSubscription.isPinned {
-                return firstSubscription.isPinned && !secondSubscription.isPinned
-            }
-            if firstSubscription.isPaused != secondSubscription.isPaused {
-                return !firstSubscription.isPaused && secondSubscription.isPaused
-            }
-            guard let firstNextPayment = remainingDays(for: firstSubscription),
-                  let secondNextPayment = remainingDays(for: secondSubscription),
-                  let firstDays = Int(firstNextPayment),
-                  let secondDays = Int(secondNextPayment) else {
+        let subscriptions = fetchedSubscriptions.filter { subscription in
+                    searchText.isEmpty || subscription.title?.localizedCaseInsensitiveContains(searchText) ?? false
+                }
+                .map {
+                    $0
+                }
+        return subscriptions.sorted { (firstSubscription: Subscription, secondSubscription: Subscription) -> Bool in
+            if firstSubscription.isPinned && !secondSubscription.isPinned {
+                return true
+            } else if !firstSubscription.isPinned && secondSubscription.isPinned {
                 return false
             }
-            return firstDays < secondDays
+
+            if !firstSubscription.isPaused && secondSubscription.isPaused {
+                return true
+            } else if firstSubscription.isPaused && !secondSubscription.isPaused {
+                return false
+            }
+
+            switch sortOption {
+            case .alphabeticalAscending:
+                return firstSubscription.title ?? "" < secondSubscription.title ?? ""
+            case .alphabeticalDescending:
+                return firstSubscription.title ?? "" > secondSubscription.title ?? ""
+            case .costAscending:
+                var firstAmount = firstSubscription.amount
+                var secondAmount = secondSubscription.amount
+                if firstSubscription.repeatPattern == ContentView.PayRate.yearly.rawValue {
+                    firstAmount /= 12
+                }
+                if secondSubscription.repeatPattern == ContentView.PayRate.yearly.rawValue {
+                    secondAmount /= 12
+                }
+                return firstAmount < secondAmount
+            case .costDescending:
+                var firstAmount = firstSubscription.amount
+                var secondAmount = secondSubscription.amount
+                if firstSubscription.repeatPattern == ContentView.PayRate.yearly.rawValue {
+                    firstAmount /= 12
+                }
+                if secondSubscription.repeatPattern == ContentView.PayRate.yearly.rawValue {
+                    secondAmount /= 12
+                }
+                return firstAmount > secondAmount
+            case .remainingDaysAscending:
+                let firstDays = remainingDays(for: firstSubscription) ?? Int.max
+                let secondDays = remainingDays(for: secondSubscription) ?? Int.max
+                return firstDays < secondDays
+            case .remainingDaysDescending:
+                let firstDays = remainingDays(for: firstSubscription) ?? Int.max
+                let secondDays = remainingDays(for: secondSubscription) ?? Int.max
+                return firstDays > secondDays
+            }
         }
     }
 
@@ -51,10 +94,12 @@ struct HomeView: View {
                 Spacer()
                 HStack {
                     Text(String(format: "%.2f", summedAmount()))
+                            .underline()
                             .id(isAnnual)
                     if monthlyLimit > 0 {
                         Text(String("/"))
                         Text(String("\(isAnnual ? (monthlyLimit * 12) : monthlyLimit)"))
+                                .underline()
                     }
                     Text(String("€"))
                 }
@@ -77,7 +122,21 @@ struct HomeView: View {
                             .id(isAnnual)
                 }
             }
+                    .searchable(text: $searchText)
                     .toolbar {
+                        ToolbarItemGroup(placement: .navigationBarLeading) {
+                            Menu {
+                                Button("Alphabetically ascending", action: { sortOption = .alphabeticalAscending })
+                                Button("Alphabetically descending", action: { sortOption = .alphabeticalDescending })
+                                Button("Ascending by cost", action: { sortOption = .costAscending })
+                                Button("Descending by cost", action: { sortOption = .costDescending })
+                                Button("Ascending by days", action: { sortOption = .remainingDaysAscending })
+                                Button("Descending by days", action: { sortOption = .remainingDaysDescending })
+                            } label: {
+                                Label("Sorting", systemImage: "arrow.up.arrow.down")
+                            }
+                        }
+
                         ToolbarItemGroup(placement: .navigationBarTrailing) {
                             NavigationLink(destination: SubscriptionCreateView()) {
                                 Image(systemName: "plus")
@@ -92,9 +151,8 @@ struct HomeView: View {
         }
                 .background(Color(.systemGray6))
     }
-    
-    
-    public func remainingDays(for subscription: Subscription) -> String? {
+
+    public func remainingDays(for subscription: Subscription) -> Int? {
         guard let startBillDate = subscription.date else {
             return nil
         }
@@ -116,7 +174,7 @@ struct HomeView: View {
         let currentDay = calendar.startOfDay(for: today)
         let nextPayment = calendar.startOfDay(for: nextBillDate)
         let components = calendar.dateComponents([.day], from: currentDay, to: nextPayment)
-        return "\(components.day ?? 0)"
+        return components.day ?? 0
     }
 
     private func summedAmount() -> Double {
@@ -125,9 +183,8 @@ struct HomeView: View {
             if (subscription.repeatPattern == ContentView.PayRate.monthly.rawValue) {
                 sum += subscription.amount
             } else {
-                sum += (subscription.amount/12)
+                sum += (subscription.amount / 12)
             }
-            
         }
         return isAnnual ? sum * 12 : sum
     }

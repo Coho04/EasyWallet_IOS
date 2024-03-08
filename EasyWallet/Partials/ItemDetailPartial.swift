@@ -12,6 +12,16 @@ struct ItemDetailPartial: View {
 
     var body: some View {
         NavigationLink(destination: SubscriptionDetailView(subscription: subscription)) {
+            if let urlString = subscription.url, let url = URL(string: urlString), let faviconURL = URL(string: "https://www.google.com/s2/favicons?sz=64&domain_url=\(url.host ?? "")") {
+                AsyncImage(url: faviconURL) { image in
+                    image.resizable()
+                } placeholder: {
+                    ProgressView()
+                }
+                        .frame(width: 20, height: 20)
+                        .cornerRadius(5)
+                        .padding(.trailing, 5)
+            }
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     VStack(alignment: .leading) {

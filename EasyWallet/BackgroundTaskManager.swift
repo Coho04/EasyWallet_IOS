@@ -153,6 +153,7 @@ class BackgroundTaskManager {
 
             if notificationsScheduled {
                 print("At least one notification was scheduled for today.")
+                userDefaults.set(Date(), forKey: lastNotificationKey)
                 completion(true)
             } else {
                 print("No notifications needed to be scheduled for today.")

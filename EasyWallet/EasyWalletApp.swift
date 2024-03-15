@@ -12,22 +12,28 @@ import BackgroundTasks
 @main
 struct EasyWalletApp: App {
 
-    let persistenceController = PersistenceController.shared
+    var persistenceController =  PersistenceController.shared
     @Environment(\.managedObjectContext) private var viewContext
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    @Environment(\.scenePhase) private var phase
+    @Environment(\.scenePhase)
+    private var phase
+    
+  
+    init() {
+        UserDefaults.standard.register(defaults: ["iCloudSync": false, "notificationsEnabled": true])
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView().environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
                 .onChange(of: phase) { oldPhase, newPhase in
-                    switch newPhase {
-                    case .background:  BackgroundTaskManager.shared.scheduleAppRefresh()
-                        break;
-                    default: break
-                    }
+                   // switch newPhase {
+                 //   case .background:  BackgroundTaskManager.shared.scheduleAppRefresh()
+                 //       break;
+                  //  default: break
+                   // }
                 }
     }
 }

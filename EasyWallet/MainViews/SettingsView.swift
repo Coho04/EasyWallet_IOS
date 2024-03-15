@@ -18,8 +18,8 @@ struct SettingsView: View {
     private var includeCostInNotifications = false
     @AppStorage("notificationTime")
     private var notificationTime = Date()
-//    @AppStorage("iCloudSyncEnabled")
-//    private var iCloudSyncEnabled = false
+    @AppStorage("iCloudSync")
+    private var iCloudSyncEnabled = false
     @AppStorage("currency")
     private var currency = "USD"
 
@@ -40,10 +40,10 @@ struct SettingsView: View {
                     DatePicker(String(localized: "Notification Time"), selection: $notificationTime, displayedComponents: .hourAndMinute)
                             .datePickerStyle(.compact)
                 }
-/*
+
                 Section(header: Text(String(localized: "Synchronization"))) {
                     Toggle(String(localized: "iCloud Sync"), isOn: $iCloudSyncEnabled)
-
+/*
                     Button(String(localized: "Synchronize Now")) {
                         iCloudSync()
                     }
@@ -53,8 +53,10 @@ struct SettingsView: View {
                     Button(String(localized: "Import Data")) {
                         importData()
                     }
-                }
+
  */
+                }
+
 
                 Section(header: Text("Preferences")) {
                     //  Picker("Currency", selection: $currency) {

@@ -14,6 +14,7 @@ struct HomeView: View {
     private var monthlyLimit = 0.0
 
     @FetchRequest(
+        entity: Subscription.entity(),
             sortDescriptors: [
                 NSSortDescriptor(keyPath: \Subscription.isPinned, ascending: false),
                 NSSortDescriptor(keyPath: \Subscription.isPaused, ascending: true),

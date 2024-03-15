@@ -94,14 +94,16 @@ struct SubscriptionCreateView: View {
         Binding<String>(
                 get: { self.url },
                 set: {
-                    if !$0.hasPrefix("https://") {
-                        if $0.hasPrefix("http://") {
-                            self.url = "https://" + $0.dropFirst(7)
+                    if (!$0.isEmpty) {
+                        if !$0.hasPrefix("https://") {
+                            if $0.hasPrefix("http://") {
+                                self.url = "https://" + $0.dropFirst(7)
+                            } else {
+                                self.url = "https://" + $0
+                            }
                         } else {
-                            self.url = "https://" + $0
+                            self.url = $0
                         }
-                    } else {
-                        self.url = $0
                     }
                 }
         )

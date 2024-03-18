@@ -27,6 +27,7 @@
 		B73E59582B8D286F00C8D6FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73E59572B8D286F00C8D6FF /* AppDelegate.swift */; };
 		B79B7DF82B8E246A001E9F2D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B79B7DF72B8E246A001E9F2D /* Localizable.xcstrings */; };
 		B79B7DFE2B8E2736001E9F2D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B79B7DFD2B8E2736001E9F2D /* Settings.bundle */; };
+		B7C888CD2BA825CE00073553 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B7C888CC2BA825CE00073553 /* SentrySwiftUI */; };
 		B7DC0FDC2B9B172A004FB722 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = B7DC0FDB2B9B172A004FB722 /* SwiftUICharts */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7DC0FDC2B9B172A004FB722 /* SwiftUICharts in Frameworks */,
+				B7C888CD2BA825CE00073553 /* SentrySwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +218,7 @@
 			name = EasyWallet;
 			packageProductDependencies = (
 				B7DC0FDB2B9B172A004FB722 /* SwiftUICharts */,
+				B7C888CC2BA825CE00073553 /* SentrySwiftUI */,
 			);
 			productName = EasyWallet;
 			productReference = B73E59122B8D1AA200C8D6FF /* EasyWallet.app */;
@@ -294,6 +297,7 @@
 			mainGroup = B73E59092B8D1AA100C8D6FF;
 			packageReferences = (
 				B7DC0FDA2B9B172A004FB722 /* XCRemoteSwiftPackageReference "SwiftUICharts" */,
+				B7C888CB2BA825CE00073553 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = B73E59132B8D1AA200C8D6FF /* Products */;
 			projectDirPath = "";
@@ -722,6 +726,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B7C888CB2BA825CE00073553 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.21.0;
+			};
+		};
 		B7DC0FDA2B9B172A004FB722 /* XCRemoteSwiftPackageReference "SwiftUICharts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/willdale/SwiftUICharts.git";
@@ -733,6 +745,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B7C888CC2BA825CE00073553 /* SentrySwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7C888CB2BA825CE00073553 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = SentrySwiftUI;
+		};
 		B7DC0FDB2B9B172A004FB722 /* SwiftUICharts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B7DC0FDA2B9B172A004FB722 /* XCRemoteSwiftPackageReference "SwiftUICharts" */;

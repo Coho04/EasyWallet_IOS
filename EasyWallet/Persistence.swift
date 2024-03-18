@@ -1,5 +1,6 @@
 import CoreData
 import CloudKit
+import Sentry
 
 struct PersistenceController {
     static var shared: PersistenceController = {
@@ -40,6 +41,7 @@ struct PersistenceController {
                  Check the error message to determine what the actual problem was.
                  */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
+                SentrySDK.capture(error: error)
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true

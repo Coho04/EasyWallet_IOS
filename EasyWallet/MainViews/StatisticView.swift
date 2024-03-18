@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftUICharts
 import CoreData
+import SentrySwiftUI
 
 struct StatisticView: View {
     @State private var monthlyExpenses: Double = 0.0
@@ -19,60 +20,62 @@ struct StatisticView: View {
     private var fetchedSubscriptions: FetchedResults<Subscription>
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack {
-                    Section {
-                        HStack {
-                            Image(systemName: "person.crop.circle.fill")
+        SentryTracedView("StatisticView"){
+            NavigationStack {
+                ScrollView {
+                    VStack {
+                        Section {
+                            HStack {
+                                Image(systemName: "person.crop.circle.fill")
                                     .foregroundColor(.blue)
                                     .padding(.trailing, 5)
-                            Text(String(localized: "Subscriptions"))
+                                Text(String(localized: "Subscriptions"))
                                     .font(.title)
                                     .fontWeight(.semibold)
-                            Spacer()
-                            Text("\(fetchedSubscriptions.count)")
+                                Spacer()
+                                Text("\(fetchedSubscriptions.count)")
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundColor(.blue)
-                        }
-                                .padding()
-                                .cornerRadius(10)
-                                .shadow(radius: 5)
-                                .padding(.horizontal)
-                        if let data = makeYearlyToMonthlyData() {
-                            PieChart(chartData: data)
+                            }
+                            .padding()
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                            .padding(.horizontal)
+                            if let data = makeYearlyToMonthlyData() {
+                                PieChart(chartData: data)
                                     .touchOverlay(chartData: data)
                                     .headerBox(chartData: data)
                                     .legends(chartData: data, columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())])
                                     .frame(minWidth: 50, maxWidth: 500, minHeight: 50, idealHeight: 250, maxHeight: 300, alignment: .center)
                                     .id(data.id)
                                     .padding(.horizontal)
+                            }
                         }
-                    }
-                            .padding()
-
-                    HStack {
-                        if let data = makePinnedData() {
-                            PieChart(chartData: data)
+                        .padding()
+                        
+                        HStack {
+                            if let data = makePinnedData() {
+                                PieChart(chartData: data)
                                     .touchOverlay(chartData: data)
                                     .headerBox(chartData: data)
                                     .frame(minWidth: 50, maxWidth: 450, minHeight: 50, idealHeight: 250, maxHeight: 300, alignment: .center)
                                     .id(data.id)
                                     .padding(.horizontal)
-                        }
-                        if let data = makePausedData() {
-                            PieChart(chartData: data)
+                            }
+                            if let data = makePausedData() {
+                                PieChart(chartData: data)
                                     .touchOverlay(chartData: data)
                                     .headerBox(chartData: data)
                                     .frame(minWidth: 50, maxWidth: 450, minHeight: 50, idealHeight: 250, maxHeight: 300, alignment: .center)
                                     .id(data.id)
                                     .padding(.horizontal)
+                            }
                         }
                     }
                 }
+                .navigationTitle(String(localized: "Statistics"))
             }
-                    .navigationTitle(String(localized: "Statistics"))
         }
     }
 

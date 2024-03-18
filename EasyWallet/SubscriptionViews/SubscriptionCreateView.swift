@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Sentry
+import SentrySwiftUI
 
 struct SubscriptionCreateView: View {
     @Environment(\.presentationMode) var presentationMode
@@ -29,65 +31,67 @@ struct SubscriptionCreateView: View {
     }
 
     var body: some View {
-        List {
-            Section {
-                TextField(String(localized: "Title"), text: $title)
+        SentryTracedView("SubscriptionCreateView"){
+            List {
+                Section {
+                    TextField(String(localized: "Title"), text: $title)
                         .disableAutocorrection(true)
-                TextField(String(localized: "URL"), text: binding)
+                    TextField(String(localized: "URL"), text: binding)
                         .keyboardType(.URL)
                         .accessibility(hint: Text(String(localized: "URL of the subscription")))
                         .disableAutocorrection(true)
-
-
-                HStack {
+                    
+                    
                     HStack {
-                        TextField(String(localized: "Amount"), text: $amountString)
+                        HStack {
+                            TextField(String(localized: "Amount"), text: $amountString)
                                 .keyboardType(.decimalPad)
                                 .disableAutocorrection(true)
-                        Text(String(localized: "Euro"))
+                            Text(String(localized: "Euro"))
+                        }
+                        .padding(.horizontal, 21)
                     }
-                            .padding(.horizontal, 21)
-                }
-                        .listRowInsets(EdgeInsets())
-
-
-                DatePicker(String(localized: "Start Date"),
-                        selection: $date,
-                        displayedComponents: [.date]
-                )
-
-                Picker(String(localized: "Payment rate"), selection: $showGreeting) {
-                    ForEach(ContentView.PayRate.allCases) { planet in
-                        Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))
+                    .listRowInsets(EdgeInsets())
+                    
+                    
+                    DatePicker(String(localized: "Start Date"),
+                               selection: $date,
+                               displayedComponents: [.date]
+                    )
+                    
+                    Picker(String(localized: "Payment rate"), selection: $showGreeting) {
+                        ForEach(ContentView.PayRate.allCases) { planet in
+                            Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))
+                        }
                     }
-                }
-
-                Picker(String(localized: "Reminde me"), selection: $rememberCycle) {
-                    ForEach(ContentView.RememberCycle.allCases) { planet in
-                        Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))
+                    
+                    Picker(String(localized: "Reminde me"), selection: $rememberCycle) {
+                        ForEach(ContentView.RememberCycle.allCases) { planet in
+                            Text(NSLocalizedString(planet.rawValue.capitalized, comment: "Section Header"))
+                        }
                     }
+                    TextField(String(localized: "Notes"), text: $notes)
                 }
-                TextField(String(localized: "Notes"), text: $notes)
+                .padding(10)
+                
+                Section {
+                    Button(String(localized: "Save")) {
+                        saveItem()
+                    }
+                    .disabled(!isFormValid)
+                }
             }
-                    .padding(10)
-
-            Section {
-                Button(String(localized: "Save")) {
-                    saveItem()
+            .textFieldStyle(.roundedBorder)
+            .navigationTitle(String(localized: "Add subscription"))
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(String(localized: "Save")) {
+                        saveItem()
+                    }
+                    .disabled(!isFormValid)
                 }
-                        .disabled(!isFormValid)
             }
         }
-                .textFieldStyle(.roundedBorder)
-                .navigationTitle(String(localized: "Add subscription"))
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(String(localized: "Save")) {
-                            saveItem()
-                        }
-                                .disabled(!isFormValid)
-                    }
-                }
     }
 
     private var binding: Binding<String> {
@@ -125,6 +129,7 @@ struct SubscriptionCreateView: View {
             try viewContext.save()
         } catch {
             let nsError = error as NSError
+            SentrySDK.capture(error: error)
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
         presentationMode.wrappedValue.dismiss()

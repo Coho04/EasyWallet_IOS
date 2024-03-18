@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import UserNotifications
+import SentrySwiftUI
 
 struct ContentView: View {
 
@@ -27,23 +28,25 @@ struct ContentView: View {
 
 
     var body: some View {
-        TabView {
-            HomeView()
+        SentryTracedView("ContentView"){
+            TabView {
+                HomeView()
                     .tabItem {
                         Image(systemName: "creditcard.circle")
                         Text(String(localized: "Subscriptions"))
                     }
-            StatisticView()
+                StatisticView()
                     .tabItem {
                         Image(systemName: "chart.bar")
                         Text(String(localized: "Statistics"))
                     }
-            SettingsView()
+                SettingsView()
                     .tabItem {
                         Label(String(localized: "Settings"), systemImage: "gear")
                     }
-        }    .onAppear {
-            requestPermission()
+            }    .onAppear {
+                requestPermission()
+            }
         }
     }
     

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SentrySwiftUI
 
 struct HomeView: View {
 
@@ -88,69 +89,71 @@ struct HomeView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            HStack {
-                Text(String(localized: "Subscriptions"))
-                        .font(.title)
-                Spacer()
+        SentryTracedView("HomeView"){
+            NavigationStack {
                 HStack {
-                    Text(String(format: "%.2f", summedAmount()))
+                    Text(String(localized: "Subscriptions"))
+                        .font(.title)
+                    Spacer()
+                    HStack {
+                        Text(String(format: "%.2f", summedAmount()))
                             .underline()
                             .id(isAnnual)
-                    if monthlyLimit > 0 {
-                        Text(String("/"))
-                        Text(String("\(isAnnual ? (monthlyLimit * 12) : monthlyLimit)"))
+                        if monthlyLimit > 0 {
+                            Text(String("/"))
+                            Text(String("\(isAnnual ? (monthlyLimit * 12) : monthlyLimit)"))
                                 .underline()
+                        }
+                        Text(String("€"))
                     }
-                    Text(String("€"))
                 }
-            }
-                    .padding()
-
-            Form {
-                Section {
-                    Picker(selection: $isAnnual, label: Text(String(localized: "Payment rate"))) {
-                        Text(String(localized: "Monthly"))
+                .padding()
+                
+                Form {
+                    Section {
+                        Picker(selection: $isAnnual, label: Text(String(localized: "Payment rate"))) {
+                            Text(String(localized: "Monthly"))
                                 .font(.title)
                                 .tag(false)
-                        Text(String(localized: "Yearly"))
+                            Text(String(localized: "Yearly"))
                                 .font(.title)
                                 .tag(true)
+                        }
                     }
-                }
-                List(sortedSubscriptions) { subscription in
-                    ItemDetailPartial(subscription: subscription, isAnnual: isAnnual)
+                    List(sortedSubscriptions) { subscription in
+                        ItemDetailPartial(subscription: subscription, isAnnual: isAnnual)
                             .id(isAnnual)
+                    }
                 }
-            }
-                    .searchable(text: $searchText)
-                    .toolbar {
-                        ToolbarItemGroup(placement: .navigationBarLeading) {
-                            Menu {
-                                Button("Alphabetically ascending", action: { sortOption = .alphabeticalAscending })
-                                Button("Alphabetically descending", action: { sortOption = .alphabeticalDescending })
-                                Button("Ascending by cost", action: { sortOption = .costAscending })
-                                Button("Descending by cost", action: { sortOption = .costDescending })
-                                Button("Ascending by days", action: { sortOption = .remainingDaysAscending })
-                                Button("Descending by days", action: { sortOption = .remainingDaysDescending })
-                            } label: {
-                                Label("Sorting", systemImage: "arrow.up.arrow.down")
-                            }
-                        }
-
-                        ToolbarItemGroup(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: SubscriptionCreateView()) {
-                                Image(systemName: "plus")
-                            }
+                .searchable(text: $searchText)
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarLeading) {
+                        Menu {
+                            Button("Alphabetically ascending", action: { sortOption = .alphabeticalAscending })
+                            Button("Alphabetically descending", action: { sortOption = .alphabeticalDescending })
+                            Button("Ascending by cost", action: { sortOption = .costAscending })
+                            Button("Descending by cost", action: { sortOption = .costDescending })
+                            Button("Ascending by days", action: { sortOption = .remainingDaysAscending })
+                            Button("Descending by days", action: { sortOption = .remainingDaysDescending })
+                        } label: {
+                            Label("Sorting", systemImage: "arrow.up.arrow.down")
                         }
                     }
-                    .overlay(Group {
-                        if sortedSubscriptions.isEmpty {
-                            Text(String(localized: "Oops, looks like there's no data..."))
+                    
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: SubscriptionCreateView()) {
+                            Image(systemName: "plus")
                         }
-                    })
+                    }
+                }
+                .overlay(Group {
+                    if sortedSubscriptions.isEmpty {
+                        Text(String(localized: "Oops, looks like there's no data..."))
+                    }
+                })
+            }
+            .background(Color(.systemGray6))
         }
-                .background(Color(.systemGray6))
     }
 
     public func remainingDays(for subscription: Subscription) -> Int? {

@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Sentry
 import UserNotifications
 import SwiftUI
 import CoreData
@@ -15,6 +16,24 @@ import BackgroundTasks
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        SentrySDK.start { options in
+            options.dsn = "https://a4403bf4769fdeb774d2fcaaef82a5a2@o4504089255804929.ingest.us.sentry.io/4506915491807232"
+            #if DEBUG
+            options.debug = true
+            options.environment = "staging"
+            #else
+            options.debug = false
+            options.environment = "production"
+            #endif
+
+            options.enableTracing = true
+            options.attachViewHierarchy = true
+            options.enablePreWarmedAppStartTracing = true
+            options.enableMetricKit = true
+            options.enableTimeToFullDisplayTracing = true
+            options.swiftAsyncStacktraces = true
+        }
+
         UNUserNotificationCenter.current().delegate = self
         BackgroundTaskManager.shared.registerBackgroundTasks()
         return true

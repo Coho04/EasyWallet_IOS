@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import SentrySwiftUI
 
 struct ItemDetailPartial: View {
 
@@ -11,44 +12,46 @@ struct ItemDetailPartial: View {
     @State var isAnnual: Bool
 
     var body: some View {
-        NavigationLink(destination: SubscriptionDetailView(subscription: subscription)) {
-            if let urlString = subscription.url, let url = URL(string: urlString), let faviconURL = URL(string: "https://www.google.com/s2/favicons?sz=64&domain_url=\(url.host ?? "")") {
-                AsyncImage(url: faviconURL) { image in
-                    image.resizable()
-                } placeholder: {
-                    ProgressView()
+        SentryTracedView("ItemDetailPartial"){
+            NavigationLink(destination: SubscriptionDetailView(subscription: subscription)) {
+                if let urlString = subscription.url, let url = URL(string: urlString), let faviconURL = URL(string: "https://www.google.com/s2/favicons?sz=64&domain_url=\(url.host ?? "")") {
+                    AsyncImage(url: faviconURL) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(width: 20, height: 20)
+                    .cornerRadius(5)
+                    .padding(.trailing, 5)
                 }
-                        .frame(width: 20, height: 20)
-                        .cornerRadius(5)
-                        .padding(.trailing, 5)
-            }
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(NSLocalizedString(subscription.title ?? "Unknown subscription", comment: "Section Header"))
-                        HStack {
-                            Text(convertedPrice(for: subscription))
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(NSLocalizedString(subscription.title ?? "Unknown subscription", comment: "Section Header"))
+                            HStack {
+                                Text(convertedPrice(for: subscription))
                                     .font(.subheadline)
                                     .foregroundColor(subscription.isPaused ? .secondary : .gray)
-                            Spacer()
-                            HStack {
-                                Text(remainingDays(for: subscription) ?? String(localized: "Unknown"))
-                                Text(String(localized: "Days"))
+                                Spacer()
+                                HStack {
+                                    Text(remainingDays(for: subscription) ?? String(localized: "Unknown"))
+                                    Text(String(localized: "Days"))
                                         .font(.subheadline)
+                                }
+                                .foregroundColor(subscription.isPaused ? .secondary : .gray)
                             }
-                                    .foregroundColor(subscription.isPaused ? .secondary : .gray)
                         }
-                    }
-                    Spacer()
-                    if subscription.isPinned {
-                        Image(systemName: "pin.fill")
+                        Spacer()
+                        if subscription.isPinned {
+                            Image(systemName: "pin.fill")
                                 .foregroundColor(.yellow)
                                 .frame(width: 44, height: 44, alignment: .center)
+                        }
                     }
                 }
             }
+            .opacity(subscription.isPaused ? 0.5 : 1)
         }
-                .opacity(subscription.isPaused ? 0.5 : 1)
     }
 
     public func remainingDays(for subscription: Subscription) -> String? {

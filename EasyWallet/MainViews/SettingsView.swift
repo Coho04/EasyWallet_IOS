@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SentrySwiftUI
 
 struct SettingsView: View {
 
@@ -29,88 +30,90 @@ struct SettingsView: View {
     private var monthlyLimit = 0.0
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section(header: Text(String(localized: "Notifications"))) {
-                    Toggle("Enable Notifications", isOn: $notificationsEnabled)
+        SentryTracedView("SettingsView"){
+            NavigationStack {
+                Form {
+                    Section(header: Text(String(localized: "Notifications"))) {
+                        Toggle("Enable Notifications", isOn: $notificationsEnabled)
                             .onChange(of: notificationsEnabled) { oldValue, newValue in
                                 handleNotificationsToggle(isEnabled: newValue)
                             }
-                    Toggle(String(localized: "Include Cost in Notifications"), isOn: $includeCostInNotifications)
-                    DatePicker(String(localized: "Notification Time"), selection: $notificationTime, displayedComponents: .hourAndMinute)
+                        Toggle(String(localized: "Include Cost in Notifications"), isOn: $includeCostInNotifications)
+                        DatePicker(String(localized: "Notification Time"), selection: $notificationTime, displayedComponents: .hourAndMinute)
                             .datePickerStyle(.compact)
-                }
-
-                Section(header: Text(String(localized: "Synchronization"))) {
-                    Toggle(String(localized: "iCloud Sync"), isOn: $iCloudSyncEnabled)
-/*
-                    Button(String(localized: "Synchronize Now")) {
-                        iCloudSync()
                     }
-                    Button(String(localized: "Export Data")) {
-                        exportData()
+                    
+                    Section(header: Text(String(localized: "Synchronization"))) {
+                        Toggle(String(localized: "iCloud Sync"), isOn: $iCloudSyncEnabled)
+                        /*
+                         Button(String(localized: "Synchronize Now")) {
+                         iCloudSync()
+                         }
+                         Button(String(localized: "Export Data")) {
+                         exportData()
+                         }
+                         Button(String(localized: "Import Data")) {
+                         importData()
+                         }
+                         
+                         */
                     }
-                    Button(String(localized: "Import Data")) {
-                        importData()
-                    }
-
- */
-                }
-
-
-                Section(header: Text("Preferences")) {
-                    //  Picker("Currency", selection: $currency) {
-                    //     Text(String(localized: "USD")).tag("USD")
-                    //       Text(String(localized: "EUR")).tag("EUR")
-                    //   }
-                    //          .pickerStyle(.navigationLink)
-
-                    HStack {
-                        Text(String(localized: "Monthly Limit"))
-                        Spacer()
-                        TextField(String(localized: "Monthly Limit"), value: $monthlyLimit, format: .currency(code: currency))
+                    
+                    
+                    Section(header: Text("Preferences")) {
+                        //  Picker("Currency", selection: $currency) {
+                        //     Text(String(localized: "USD")).tag("USD")
+                        //       Text(String(localized: "EUR")).tag("EUR")
+                        //   }
+                        //          .pickerStyle(.navigationLink)
+                        
+                        HStack {
+                            Text(String(localized: "Monthly Limit"))
+                            Spacer()
+                            TextField(String(localized: "Monthly Limit"), value: $monthlyLimit, format: .currency(code: currency))
                                 .multilineTextAlignment(.trailing)
+                        }
+                    }
+                    
+                    Section(header: Text(String(localized: "Support"))) {
+                        Button(String(localized: "Imprint")) {
+                            openWebPage(url: "https://golden-developer.de/imprint")
+                        }
+                        Button(String(localized: "Privacy Policy")) {
+                            openWebPage(url: "https://golden-developer.de/privacy")
+                        }
+                        Button(String(localized: "Help")) {
+                            openWebPage(url: "https://support.golden-developer.de")
+                        }
+                        Button(String(localized: "Feedback")) {
+                            rateApp()
+                        }
+                        Button(String(localized: "Contact Developer")) {
+                            openWebPage(url: "https://support.golden-developer.de")
+                        }
+                        Button(String(localized: "Tip Jar")) {
+                            openWebPage(url: "https://donate.golden-developer.de")
+                        }
+                        Button(String(localized: "Rate the App")) {
+                            rateApp()
+                        }
                     }
                 }
-
-                Section(header: Text(String(localized: "Support"))) {
-                    Button(String(localized: "Imprint")) {
-                        openWebPage(url: "https://golden-developer.de/imprint")
-                    }
-                    Button(String(localized: "Privacy Policy")) {
-                        openWebPage(url: "https://golden-developer.de/privacy")
-                    }
-                    Button(String(localized: "Help")) {
-                        openWebPage(url: "https://support.golden-developer.de")
-                    }
-                    Button(String(localized: "Feedback")) {
-                        rateApp()
-                    }
-                    Button(String(localized: "Contact Developer")) {
-                        openWebPage(url: "https://support.golden-developer.de")
-                    }
-                    Button(String(localized: "Tip Jar")) {
-                        openWebPage(url: "https://donate.golden-developer.de")
-                    }
-                    Button(String(localized: "Rate the App")) {
-                        rateApp()
-                    }
-                }
+                .navigationTitle(String(localized: "Settings"))
             }
-                    .navigationTitle(String(localized: "Settings"))
+            .alert(isPresented: $showingSettingsAlert) {
+                Alert(
+                    title: Text(String(localized: "Notification deactivated")),
+                    message: Text(String(localized: "Would you like to activate notifications in the settings?")),
+                    primaryButton: .default(Text(String(localized: "Open Settings"))) {
+                        if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url)
+                        }
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
         }
-                .alert(isPresented: $showingSettingsAlert) {
-                    Alert(
-                            title: Text(String(localized: "Notification deactivated")),
-                            message: Text(String(localized: "Would you like to activate notifications in the settings?")),
-                            primaryButton: .default(Text(String(localized: "Open Settings"))) {
-                                if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
-                                    UIApplication.shared.open(url)
-                                }
-                            },
-                            secondaryButton: .cancel()
-                    )
-                }
     }
 
     private func handleNotificationsToggle(isEnabled: Bool) {

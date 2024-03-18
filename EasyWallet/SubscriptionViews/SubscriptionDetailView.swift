@@ -5,6 +5,8 @@
 
 import SwiftUI
 import CoreData
+import Sentry
+import SentrySwiftUI
 
 struct SubscriptionDetailView: View {
 
@@ -15,98 +17,100 @@ struct SubscriptionDetailView: View {
     var presentationMode
 
     var body: some View {
-        List {
-            Section(header:
-            HStack {
-                if let urlString = subscription.url, let url = URL(string: urlString), let faviconURL = URL(string: "https://www.google.com/s2/favicons?sz=64&domain_url=\(url.host ?? "")") {
-                    AsyncImage(url: faviconURL) { image in
-                        image.resizable()
-                    } placeholder: {
-                        ProgressView()
+        SentryTracedView("SubscriptionDetailView") {
+            List {
+                Section(header:
+                            HStack {
+                    if let urlString = subscription.url, let url = URL(string: urlString), let faviconURL = URL(string: "https://www.google.com/s2/favicons?sz=64&domain_url=\(url.host ?? "")") {
+                        AsyncImage(url: faviconURL) { image in
+                            image.resizable()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width: 20, height: 20)
+                        .cornerRadius(5)
+                        .padding(.trailing, 5)
                     }
-                            .frame(width: 20, height: 20)
-                            .cornerRadius(5)
-                            .padding(.trailing, 5)
-                }
-                Text(NSLocalizedString(subscription.title ?? "Unknown", comment: "Section Header"))
+                    Text(NSLocalizedString(subscription.title ?? "Unknown", comment: "Section Header"))
                         .font(.title2)
-            }
-            ) {
-                DetailRow(label: String(localized: "Costs"), value: "\(String(format: "%.2f €", subscription.amount)) \(repeatPattern(subscription: subscription))")
-                DetailRow(label: String(localized: "Next invoice"), value: SubscriptionDetailView.calculateNextBillDate(subscription: subscription).map {
-                    DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)
-                } ?? "")
-                DetailRow(
+                }
+                ) {
+                    DetailRow(label: String(localized: "Costs"), value: "\(String(format: "%.2f €", subscription.amount)) \(repeatPattern(subscription: subscription))")
+                    DetailRow(label: String(localized: "Next invoice"), value: SubscriptionDetailView.calculateNextBillDate(subscription: subscription).map {
+                        DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)
+                    } ?? "")
+                    DetailRow(
                         label: String(localized: "Previous invoice"),
                         value: calculatePreviousBillDate(subscription: subscription).map {
                             DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)
                         } ?? ""
-                )
-                DetailRow(label: String(localized: "Created on"), value: subscription.timestamp.map {
-                    dateFormatter.string(from: $0)
-                } ?? String(localized: "Unknown"))
-            }
-                    .textCase(nil)
-
-            Section {
-                if let notes = subscription.notes, !notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    DetailRow(
+                    )
+                    DetailRow(label: String(localized: "Created on"), value: subscription.timestamp.map {
+                        dateFormatter.string(from: $0)
+                    } ?? String(localized: "Unknown"))
+                }
+                .textCase(nil)
+                
+                Section {
+                    if let notes = subscription.notes, !notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        DetailRow(
                             label: String(localized: "Notes"),
                             value: notes
-                    )
+                        )
+                    }
                 }
-            }
-
-            Section(header: Text(String(localized: "Actions")).font(.headline)) {
-                Button(action: pinningItem) {
-                    HStack {
-                        if (subscription.isPinned) {
-                            Text(String(localized: "Unpin this subscription."))
-                            Spacer()
-                            Image(systemName: "pin.slash")
-                        } else {
-                            Text(String(localized: "Pin this subscription"))
-                            Spacer()
-                            Image(systemName: "pin")
+                
+                Section(header: Text(String(localized: "Actions")).font(.headline)) {
+                    Button(action: pinningItem) {
+                        HStack {
+                            if (subscription.isPinned) {
+                                Text(String(localized: "Unpin this subscription."))
+                                Spacer()
+                                Image(systemName: "pin.slash")
+                            } else {
+                                Text(String(localized: "Pin this subscription"))
+                                Spacer()
+                                Image(systemName: "pin")
+                            }
                         }
                     }
-                }
-                        .foregroundColor(.blue)
-                Button(action: pausingItem) {
-                    HStack {
-                        if (subscription.isPaused) {
-                            Text(String(localized: "Continue this subscription"))
-                            Spacer()
-                            Image(systemName: "playpause.circle")
-                        } else {
-                            Text(String(localized: "Pause this subscription"))
-                            Spacer()
-                            Image(systemName: "pause.circle")
+                    .foregroundColor(.blue)
+                    Button(action: pausingItem) {
+                        HStack {
+                            if (subscription.isPaused) {
+                                Text(String(localized: "Continue this subscription"))
+                                Spacer()
+                                Image(systemName: "playpause.circle")
+                            } else {
+                                Text(String(localized: "Pause this subscription"))
+                                Spacer()
+                                Image(systemName: "pause.circle")
+                            }
                         }
                     }
+                    .foregroundColor(.gray)
+                    Button(action: deleteItem) {
+                        HStack {
+                            Text(String(localized: "Delete this subscription"))
+                            Spacer()
+                            Image(systemName: "trash")
+                        }
+                    }
+                    .foregroundColor(.red)
                 }
-                        .foregroundColor(.gray)
-                Button(action: deleteItem) {
-                    HStack {
-                        Text(String(localized: "Delete this subscription"))
-                        Spacer()
-                        Image(systemName: "trash")
+                .textCase(nil)
+            }
+            .listStyle(InsetGroupedListStyle())
+            .navigationBarTitle(String(localized: "Subscriptions"), displayMode: .inline)
+            .toolbar {
+                ToolbarItem {
+                    NavigationLink(destination: SubscriptionEditView(subscription: subscription)) {
+                        Image(systemName: "square.and.pencil.circle")
+                            .foregroundColor(.blue)
                     }
                 }
-                        .foregroundColor(.red)
             }
-                    .textCase(nil)
         }
-                .listStyle(InsetGroupedListStyle())
-                .navigationBarTitle(String(localized: "Subscriptions"), displayMode: .inline)
-                .toolbar {
-                    ToolbarItem {
-                        NavigationLink(destination: SubscriptionEditView(subscription: subscription)) {
-                            Image(systemName: "square.and.pencil.circle")
-                                    .foregroundColor(.blue)
-                        }
-                    }
-                }
     }
 
     private func repeatPattern(subscription: Subscription) -> String {
@@ -187,6 +191,8 @@ struct SubscriptionDetailView: View {
             try viewContext.save()
             presentationMode.wrappedValue.dismiss()
         } catch {
+            let nsError = error as NSError
+            SentrySDK.capture(error: nsError)
             print("Delete failed: \(error.localizedDescription)")
         }
     }
@@ -206,6 +212,7 @@ struct SubscriptionDetailView: View {
             try viewContext.save()
         } catch {
             let nsError = error as NSError
+            SentrySDK.capture(error: nsError)
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }

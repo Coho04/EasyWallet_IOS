@@ -4,7 +4,7 @@ import Sentry
 
 struct PersistenceController {
     static var shared: PersistenceController = {
-        let useCloudSync  = UserDefaults.standard.bool(forKey: "iCloudSync")
+        let useCloudSync = UserDefaults.standard.bool(forKey: "iCloudSync")
         return PersistenceController(inMemory: false, useCloudSync: useCloudSync)
     }()
 
@@ -21,17 +21,17 @@ struct PersistenceController {
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
-        if useCloudSync {
-            let storeDescription = container.persistentStoreDescriptions.first
-            storeDescription?.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.de.golden-developer.easywallet.Subscriptions")
-        } else {
-            container.persistentStoreDescriptions.first?.cloudKitContainerOptions = nil
+        if let description = container.persistentStoreDescriptions.first {
+            description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+            description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+            if useCloudSync {
+                description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.de.golden-developer.easywallet.Subscriptions")
+            } else {
+                description.cloudKitContainerOptions = nil
+            }
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
@@ -40,11 +40,18 @@ struct PersistenceController {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
                 SentrySDK.capture(error: error)
+                fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+
+
+        NotificationCenter.default.addObserver(forName: .NSPersistentStoreRemoteChange, object: nil, queue: nil) { notification in
+
+            print("Remote store change detected: \(notification)")
+
+        }
     }
 }

@@ -836,6 +836,9 @@
         }
       }
     },
+    "Export Subscriptions" : {
+
+    },
     "Feedback" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1045,6 +1048,9 @@
           }
         }
       }
+    },
+    "Import Data" : {
+
     },
     "Imprint" : {
       "extractionState" : "manual",
@@ -2314,6 +2320,9 @@
         }
       }
     },
+    "Synchronize Now" : {
+
+    },
     "Tip Jar" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2733,6 +2742,9 @@
           }
         }
       }
+    },
+    "Url" : {
+
     },
     "URL" : {
       "extractionState" : "manual",

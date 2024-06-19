@@ -20,19 +20,19 @@ struct SubscriptionDetailView: View {
         SentryTracedView("SubscriptionDetailView") {
             List {
                 Section(header:
-                            HStack {
+                HStack {
                     if let urlString = subscription.url, let url = URL(string: urlString), let faviconURL = URL(string: "https://www.google.com/s2/favicons?sz=64&domain_url=\(url.host ?? "")") {
                         AsyncImage(url: faviconURL) { image in
                             image.resizable()
                         } placeholder: {
                             ProgressView()
                         }
-                        .frame(width: 20, height: 20)
-                        .cornerRadius(5)
-                        .padding(.trailing, 5)
+                                .frame(width: 20, height: 20)
+                                .cornerRadius(5)
+                                .padding(.trailing, 5)
                     }
                     Text(NSLocalizedString(subscription.title ?? "Unknown", comment: "Section Header"))
-                        .font(.title2)
+                            .font(.title2)
                 }
                 ) {
                     DetailRow(label: String(localized: "Costs"), value: "\(String(format: "%.2f €", subscription.amount)) \(repeatPattern(subscription: subscription))")
@@ -40,26 +40,27 @@ struct SubscriptionDetailView: View {
                         DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)
                     } ?? "")
                     DetailRow(
-                        label: String(localized: "Previous invoice"),
-                        value: calculatePreviousBillDate(subscription: subscription).map {
-                            DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)
-                        } ?? ""
+                            label: String(localized: "Previous invoice"),
+                            value: calculatePreviousBillDate(subscription: subscription).map {
+                                DateFormatter.localizedString(from: $0, dateStyle: .medium, timeStyle: .none)
+                            } ?? ""
                     )
                     DetailRow(label: String(localized: "Created on"), value: subscription.timestamp.map {
                         dateFormatter.string(from: $0)
                     } ?? String(localized: "Unknown"))
+                    DetailRow(label: String(localized: "Url"), value: subscription.url ?? String(localized: "Unknown"))
                 }
-                .textCase(nil)
-                
+                        .textCase(nil)
+
                 Section {
                     if let notes = subscription.notes, !notes.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         DetailRow(
-                            label: String(localized: "Notes"),
-                            value: notes
+                                label: String(localized: "Notes"),
+                                value: notes
                         )
                     }
                 }
-                
+
                 Section(header: Text(String(localized: "Actions")).font(.headline)) {
                     Button(action: pinningItem) {
                         HStack {
@@ -74,7 +75,7 @@ struct SubscriptionDetailView: View {
                             }
                         }
                     }
-                    .foregroundColor(.blue)
+                            .foregroundColor(.blue)
                     Button(action: pausingItem) {
                         HStack {
                             if (subscription.isPaused) {
@@ -88,7 +89,7 @@ struct SubscriptionDetailView: View {
                             }
                         }
                     }
-                    .foregroundColor(.gray)
+                            .foregroundColor(.gray)
                     Button(action: deleteItem) {
                         HStack {
                             Text(String(localized: "Delete this subscription"))
@@ -96,20 +97,20 @@ struct SubscriptionDetailView: View {
                             Image(systemName: "trash")
                         }
                     }
-                    .foregroundColor(.red)
+                            .foregroundColor(.red)
                 }
-                .textCase(nil)
+                        .textCase(nil)
             }
-            .listStyle(InsetGroupedListStyle())
-            .navigationBarTitle(String(localized: "Subscriptions"), displayMode: .inline)
-            .toolbar {
-                ToolbarItem {
-                    NavigationLink(destination: SubscriptionEditView(subscription: subscription)) {
-                        Image(systemName: "square.and.pencil.circle")
-                            .foregroundColor(.blue)
+                    .listStyle(InsetGroupedListStyle())
+                    .navigationBarTitle(String(localized: "Subscriptions"), displayMode: .inline)
+                    .toolbar {
+                        ToolbarItem {
+                            NavigationLink(destination: SubscriptionEditView(subscription: subscription)) {
+                                Image(systemName: "square.and.pencil.circle")
+                                        .foregroundColor(.blue)
+                            }
+                        }
                     }
-                }
-            }
         }
     }
 

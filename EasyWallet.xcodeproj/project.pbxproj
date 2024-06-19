@@ -28,6 +28,8 @@
 		B79B7DF82B8E246A001E9F2D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B79B7DF72B8E246A001E9F2D /* Localizable.xcstrings */; };
 		B79B7DFE2B8E2736001E9F2D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B79B7DFD2B8E2736001E9F2D /* Settings.bundle */; };
 		B7C888CD2BA825CE00073553 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B7C888CC2BA825CE00073553 /* SentrySwiftUI */; };
+		B7C888D82BA840BF00073553 /* SubscriptionDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C888D72BA840BF00073553 /* SubscriptionDocument.swift */; };
+		B7C888DD2BA8598600073553 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C888DC2BA8598600073553 /* DocumentPicker.swift */; };
 		B7DC0FDC2B9B172A004FB722 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = B7DC0FDB2B9B172A004FB722 /* SwiftUICharts */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +76,9 @@
 		B7839A902B9B4627004E4C89 /* EasyWallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EasyWallet.entitlements; sourceTree = "<group>"; };
 		B79B7DF72B8E246A001E9F2D /* Localizable.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B79B7DFD2B8E2736001E9F2D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		B7C888D72BA840BF00073553 /* SubscriptionDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionDocument.swift; sourceTree = "<group>"; };
+		B7C888DB2BA853A000073553 /* EasyWallet 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "EasyWallet 2.xcdatamodel"; sourceTree = "<group>"; };
+		B7C888DC2BA8598600073553 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		B7DFBBB02B98E6DC008DBC5B /* EasyWalletDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EasyWalletDebug.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +132,7 @@
 		B73E59142B8D1AA200C8D6FF /* EasyWallet */ = {
 			isa = PBXGroup;
 			children = (
+				B7C888D62BA8406800073553 /* Export */,
 				B7839A902B9B4627004E4C89 /* EasyWallet.entitlements */,
 				B7DFBBB02B98E6DC008DBC5B /* EasyWalletDebug.entitlements */,
 				B79B7DFD2B8E2736001E9F2D /* Settings.bundle */,
@@ -198,6 +204,15 @@
 				B73E59532B8D1D0000C8D6FF /* SubscriptionCreateView.swift */,
 			);
 			path = SubscriptionViews;
+			sourceTree = "<group>";
+		};
+		B7C888D62BA8406800073553 /* Export */ = {
+			isa = PBXGroup;
+			children = (
+				B7C888D72BA840BF00073553 /* SubscriptionDocument.swift */,
+				B7C888DC2BA8598600073553 /* DocumentPicker.swift */,
+			);
+			path = Export;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -344,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B73E594A2B8D1C0700C8D6FF /* StatisticView.swift in Sources */,
+				B7C888D82BA840BF00073553 /* SubscriptionDocument.swift in Sources */,
 				B73E59502B8D1C7600C8D6FF /* SubscriptionDetailView.swift in Sources */,
 				B73E594D2B8D1C3E00C8D6FF /* ItemDetailPartial.swift in Sources */,
 				B73E591F2B8D1AA400C8D6FF /* Persistence.swift in Sources */,
@@ -355,6 +371,7 @@
 				B73E59482B8D1BF300C8D6FF /* SettingsView.swift in Sources */,
 				B73E59522B8D1C9400C8D6FF /* SubscriptionEditView.swift in Sources */,
 				B73E59462B8D1BD400C8D6FF /* HomeView.swift in Sources */,
+				B7C888DD2BA8598600073553 /* DocumentPicker.swift in Sources */,
 				B73E59162B8D1AA200C8D6FF /* EasyWalletApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,6 +538,7 @@
 				CODE_SIGN_ENTITLEMENTS = EasyWallet/EasyWalletDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"EasyWallet/Preview Content\"";
 				DEVELOPMENT_TEAM = 98UP8S95BD;
 				ENABLE_PREVIEWS = YES;
@@ -761,6 +779,7 @@
 		B73E59202B8D1AA400C8D6FF /* EasyWallet.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B7C888DB2BA853A000073553 /* EasyWallet 2.xcdatamodel */,
 				B73E59212B8D1AA400C8D6FF /* EasyWallet.xcdatamodel */,
 			);
 			currentVersion = B73E59212B8D1AA400C8D6FF /* EasyWallet.xcdatamodel */;
